@@ -1,11 +1,58 @@
 
+import React, { useState } from 'react';
 import WorldMap from "@/components/WorldMap";
 import ListingSections from "@/components/ListingSections";
 import JobsSection from "@/components/JobsSection";
+import PopupManager from "@/components/PopupManager";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 const Index = () => {
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showVoidModal, setShowVoidModal] = useState(false);
+
+  const handlePostClick = () => {
+    (window as any).addCraigPopup?.({
+      title: "🚫 Post Feature Retired",
+      content: "This feature was retired due to emotional damage caused by previous posts.",
+      x: 300,
+      y: 200
+    });
+  };
+
+  const handleAccountClick = () => {
+    setShowLoginModal(true);
+  };
+
+  const handleErrorClick = () => {
+    setShowVoidModal(true);
+    
+    // Add some chaos
+    setTimeout(() => {
+      (window as any).addCraigPopup?.({
+        title: "🌀 Welcome to the Void",
+        content: "Nothing exists here. Not even hope.",
+        x: 150,
+        y: 150,
+        shaking: true
+      });
+    }, 500);
+  };
+
+  const handleRandomHover = () => {
+    if (Math.random() > 0.8) {
+      (window as any).addCraigPopup?.({
+        title: "🎯 Random Chaos",
+        content: "You hovered over something. Congratulations, you triggered chaos.",
+        x: Math.random() * 400 + 100,
+        y: Math.random() * 300 + 100
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white font-times">
+      <PopupManager />
+      
       {/* Top Banner */}
       <div className="bg-white border-b-2 border-craigpurple p-4 text-center">
         <h1 className="text-3xl font-bold text-craigpurple mb-2 transform rotate-180 inline-block">
@@ -23,11 +70,31 @@ const Index = () => {
         {/* Broken navigation */}
         <div className="mb-6 text-center">
           <div className="font-courier text-sm space-x-4 text-craigpurple">
-            <span className="underline cursor-pointer">post</span> |
-            <span className="underline cursor-pointer">account</span> |
+            <span 
+              className="underline cursor-pointer hover:text-red-600"
+              onClick={handlePostClick}
+            >
+              post
+            </span> |
+            <span 
+              className="underline cursor-pointer hover:text-red-600"
+              onClick={handleAccountClick}
+            >
+              account
+            </span> |
             <span className="line-through text-gray-400">search</span> |
-            <span className="text-red-600">[ERROR 404]</span> |
-            <span className="animate-broken-blink underline cursor-pointer">help</span>
+            <span 
+              className="text-red-600 cursor-pointer hover:text-purple-600"
+              onClick={handleErrorClick}
+            >
+              [ERROR 404]
+            </span> |
+            <span 
+              className="animate-broken-blink underline cursor-pointer hover:text-red-600"
+              onMouseEnter={handleRandomHover}
+            >
+              help
+            </span>
           </div>
         </div>
 
@@ -62,7 +129,15 @@ const Index = () => {
                 <div>Market Cap: -$50M</div>
                 <div>Holders: 3 (all bots)</div>
                 <div className="text-red-600">⚠️ NOT FINANCIAL ADVICE ⚠️</div>
-                <button className="bg-craigpurple text-white px-3 py-1 mt-2 font-courier text-xs border-2 border-black">
+                <button 
+                  className="bg-craigpurple text-white px-3 py-1 mt-2 font-courier text-xs border-2 border-black hover:bg-purple-700"
+                  onClick={() => (window as any).addCraigPopup?.({
+                    title: "🚀 pump.fun",
+                    content: "Just kidding! This token doesn't actually exist. Yet.",
+                    x: 200,
+                    y: 300
+                  })}
+                >
                   Minted on pump.fun (maybe)
                 </button>
               </div>
@@ -70,20 +145,40 @@ const Index = () => {
 
             {/* Fake Ads */}
             <div className="space-y-4">
-              <div className="bg-red-100 border border-red-500 p-3 text-center">
+              <div 
+                className="bg-red-100 border border-red-500 p-3 text-center cursor-pointer hover:bg-red-200"
+                onClick={() => (window as any).addCraigPopup?.({
+                  title: "🇳🇬 Nigerian Prince",
+                  content: "Greetings! I am Prince Kwame and I need your $CRGL to unlock my inheritance!",
+                  x: Math.random() * 300 + 100,
+                  y: Math.random() * 200 + 100
+                })}
+              >
                 <div className="font-courier text-xs text-red-600">
                   🚨 URGENT: Nigerian Prince Needs $CRGL 🚨
                 </div>
               </div>
               
-              <div className="bg-blue-100 border border-blue-500 p-3">
+              <div 
+                className="bg-blue-100 border border-blue-500 p-3 cursor-pointer"
+                onMouseEnter={handleRandomHover}
+              >
                 <div className="font-courier text-xs">
                   💊 Buy Generic Hopium Online<br/>
                   <span className="text-gray-500">[BLOCKED BY ADBLOCK]</span>
                 </div>
               </div>
 
-              <div className="bg-green-100 border border-green-500 p-3">
+              <div 
+                className="bg-green-100 border border-green-500 p-3 cursor-pointer"
+                onClick={() => (window as any).addCraigPopup?.({
+                  title: "🎰 Crypto Casino WINNER!",
+                  content: "Congratulations! You've won 1 million CRGL! (Worth approximately $0.004)",
+                  x: 250,
+                  y: 180,
+                  shaking: true
+                })}
+              >
                 <div className="font-courier text-xs">
                   🎰 Win Big at Crypto Casino!<br/>
                   <span className="line-through">Definitely Not a Scam™</span>
@@ -97,29 +192,112 @@ const Index = () => {
         <footer className="mt-12 border-t-2 border-craigpurple pt-4">
           <div className="text-center space-y-2">
             <div className="font-courier text-xs text-craigpurple space-x-4">
-              <span className="underline cursor-pointer">Terms of Misuse</span> |
-              <span className="underline cursor-pointer">Privacy Violation Policy</span> |
-              <span className="underline cursor-pointer">Report a Ghost</span> |
-              <span className="underline cursor-pointer">Apply for Worst Job</span>
+              <span className="underline cursor-pointer hover:text-red-600">Terms of Misuse</span> |
+              <span className="underline cursor-pointer hover:text-red-600">Privacy Violation Policy</span> |
+              <span className="underline cursor-pointer hover:text-red-600">Report a Ghost</span> |
+              <span className="underline cursor-pointer hover:text-red-600">Apply for Worst Job</span>
             </div>
             <div className="font-times text-xs text-gray-500 mt-4">
               © 2024 craigslast | Built with 💔 and questionable decisions
             </div>
             <div className="font-courier text-xs text-red-600">
-              ⚠️ This site may contain traces of regret ⚠️
+              ⚠️ CraigLast is not responsible for emotional, financial, or spiritual losses incurred while browsing. Consult a meme doctor. ⚠️
             </div>
           </div>
         </footer>
       </div>
 
       {/* Floating broken elements for extra chaos */}
-      <div className="fixed bottom-4 right-4 bg-red-600 text-white p-2 font-courier text-xs animate-bounce">
+      <div 
+        className="fixed bottom-4 right-4 bg-red-600 text-white p-2 font-courier text-xs animate-bounce cursor-pointer"
+        onClick={() => (window as any).addCraigPopup?.({
+          title: "🔗 BROKEN LINK VIRUS",
+          content: "You clicked the broken link detector. Ironic.",
+          x: 400,
+          y: 400,
+          shaking: true
+        })}
+      >
         🚨 BROKEN LINK DETECTED 🚨
       </div>
       
-      <div className="fixed top-20 left-4 bg-yellow-400 text-black p-1 font-courier text-xs transform rotate-12">
+      <div 
+        className="fixed top-20 left-4 bg-yellow-400 text-black p-1 font-courier text-xs transform rotate-12 cursor-pointer"
+        onClick={() => (window as any).addCraigPopup?.({
+          title: "🎉 CONGRATULATIONS!",
+          content: "You've won absolutely nothing! But thanks for clicking.",
+          x: 50,
+          y: 250
+        })}
+      >
         💸 YOU'VE WON! (NOT REALLY)
       </div>
+
+      {/* Login Modal */}
+      <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
+        <DialogContent className="bg-gray-100 border-4 border-craigpurple font-courier max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-craigpurple font-times text-lg">
+              🔐 CraigLast Account Login
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="text-xs text-gray-700">Username:</label>
+              <input 
+                className="w-full border border-gray-400 p-1 text-xs"
+                placeholder="disappointment_collector_69"
+                disabled
+              />
+            </div>
+            <div>
+              <label className="text-xs text-gray-700">Password:</label>
+              <input 
+                type="password"
+                className="w-full border border-gray-400 p-1 text-xs"
+                placeholder="••••••••••••"
+                disabled
+              />
+            </div>
+            <div className="text-xs text-red-600 bg-yellow-100 p-2 border">
+              Please enter your mother's maiden name and crypto seed phrase (just kidding… unless?)
+            </div>
+            <button 
+              className="w-full bg-craigpurple text-white py-2 font-courier text-xs hover:bg-purple-700"
+              onClick={() => setShowLoginModal(false)}
+            >
+              Login to Regret
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Void Modal */}
+      <Dialog open={showVoidModal} onOpenChange={setShowVoidModal}>
+        <DialogContent className="bg-black text-green-400 border-4 border-red-600 font-courier max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-red-500 font-times text-lg">
+              🌀 THE VOID
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="text-center text-sm">
+              Welcome to the Void.<br/>
+              Nothing exists here.<br/>
+              Not even hope.
+            </div>
+            <div className="text-xs text-gray-500 text-center">
+              You clicked [ERROR 404]. What did you expect?
+            </div>
+            <button 
+              className="w-full bg-red-600 text-white py-2 font-courier text-xs hover:bg-red-700"
+              onClick={() => setShowVoidModal(false)}
+            >
+              Escape the Void (Maybe)
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
