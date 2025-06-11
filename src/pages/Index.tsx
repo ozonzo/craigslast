@@ -50,6 +50,15 @@ const Index = () => {
     }
   };
 
+  const handleFooterLinkClick = (linkName: string) => {
+    (window as any).addCraigPopup?.({
+      title: "🔗 LINK ERROR",
+      content: `${linkName} is currently broken. Like everything else.`,
+      x: Math.random() * 300 + 100,
+      y: Math.random() * 200 + 100
+    });
+  };
+
   return (
     <div className="min-h-screen bg-white font-times">
       <PopupManager />
@@ -191,20 +200,111 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Footer */}
-        <footer className="mt-12 border-t-2 border-craigpurple pt-4">
-          <div className="text-center space-y-2">
-            <div className="font-courier text-xs text-craigpurple space-x-4">
-              <span className="underline cursor-pointer hover:text-red-600">Terms of Misuse</span> |
-              <span className="underline cursor-pointer hover:text-red-600">Privacy Violation Policy</span> |
-              <span className="underline cursor-pointer hover:text-red-600">Report a Ghost</span> |
-              <span className="underline cursor-pointer hover:text-red-600">Apply for Worst Job</span>
+        {/* Epic SPX6900-style Disclaimer Footer */}
+        <footer className="mt-12 border-t-4 border-craigpurple pt-6 bg-yellow-50">
+          <div className="max-w-6xl mx-auto px-4">
+            {/* Main Disclaimer Text */}
+            <div className="font-courier text-xs leading-relaxed text-black space-y-4 mb-6">
+              <p className="font-bold text-red-600 text-center text-sm mb-4">
+                ⚠️ IMPORTANT LEGAL DISCLAIMER - PLEASE READ CAREFULLY ⚠️
+              </p>
+              
+              <p>
+                <strong>CraigLast ($CRGL) Token</strong> is a meme token created for entertainment purposes only and has no association with any real assets, dignities, or valid classifieds. $CRGL is not an investment vehicle, security, commodity, or financial instrument of any kind. The token exists purely as a satirical commentary on cryptocurrency markets and classified advertisement platforms.
+              </p>
+              
+              <p>
+                <strong>SATIRE AND ENTERTAINMENT:</strong> This website, including all content, listings, job postings, and interactive elements, is entirely fictional and created for comedic purposes. Any resemblance to real classified ads, legitimate business opportunities, or functional websites is purely coincidental and unintentional.
+              </p>
+              
+              <p>
+                <strong>NO INTRINSIC VALUE:</strong> $CRGL tokens have no intrinsic value, utility, or promise of future value. They are not backed by any assets, revenues, or legitimate business operations. Purchasing $CRGL is equivalent to purchasing digital air, existential dread, or the sound of dial-up internet.
+              </p>
+              
+              <p>
+                <strong>RISK ACKNOWLEDGMENT:</strong> Cryptocurrency investments carry extreme risk of total loss. Past performance of any cryptocurrency is not indicative of future results. You may lose all invested capital, your dignity, your sleep, and potentially your faith in humanity. Consult with a financial advisor before making any investment decisions (and maybe a therapist too).
+              </p>
+              
+              <p>
+                <strong>NO LIABILITY:</strong> The creators, developers, and affiliates of CraigLast ($CRGL) are not responsible for any financial losses, emotional trauma, spiritual crises, or existential questioning that may result from interacting with this website or token. We are also not responsible for computer viruses, popup infections, or Windows 98 flashbacks.
+              </p>
+              
+              <p>
+                <strong>NO FINANCIAL ADVICE:</strong> Nothing on this website constitutes financial, investment, legal, or life advice. Any apparent recommendations are either jokes, sarcasm, or the incoherent ramblings of sleep-deprived developers. Do not base financial decisions on memes, broken links, or popup messages.
+              </p>
+              
+              <p>
+                <strong>INDEMNIFICATION:</strong> By accessing this website, you agree to indemnify and hold harmless CraigLast, its creators, and anyone who has ever heard of this project from any claims, damages, or losses arising from your use of this platform, including but not limited to: laptop damage from rage-induced keyboard smashing, relationship problems caused by cryptocurrency obsession, and therapy bills resulting from financial trauma.
+              </p>
+              
+              <p>
+                <strong>JURISDICTIONAL CHAOS:</strong> This disclaimer is governed by the laws of the metaverse, interpreted by AI judges, and enforced by absolutely nobody. Any disputes will be resolved through trial by meme combat in the digital thunderdome.
+              </p>
             </div>
-            <div className="font-times text-xs text-gray-500 mt-4">
-              © 2024 craigslast | Built with 💔 and questionable decisions
+
+            {/* Fake Internal Links */}
+            <div className="text-center border-t-2 border-gray-300 pt-4 mb-4">
+              <div className="font-courier text-xs text-craigpurple space-x-4 mb-2">
+                <span 
+                  className="underline cursor-pointer hover:text-red-600"
+                  onClick={() => handleFooterLinkClick('MemeTools')}
+                >
+                  MemeTools
+                </span> |
+                <span 
+                  className="underline cursor-pointer hover:text-red-600"
+                  onClick={() => handleFooterLinkClick('SadgeSwap')}
+                >
+                  SadgeSwap
+                </span> |
+                <span 
+                  className="underline cursor-pointer hover:text-red-600"
+                  onClick={() => handleFooterLinkClick('LostWallets')}
+                >
+                  LostWallets
+                </span> |
+                <span 
+                  className="underline cursor-pointer hover:text-red-600"
+                  onClick={() => handleFooterLinkClick('BrokenDEX')}
+                >
+                  BrokenDEX
+                </span>
+              </div>
+              <div className="font-courier text-xs text-craigpurple space-x-4">
+                <span 
+                  className="underline cursor-pointer hover:text-red-600"
+                  onClick={() => handleFooterLinkClick('Opensea of Tears')}
+                >
+                  Opensea of Tears
+                </span> |
+                <span 
+                  className="underline cursor-pointer hover:text-red-600"
+                  onClick={() => handleFooterLinkClick('CraigLast DAO')}
+                >
+                  CraigLast DAO (Hypothetical)
+                </span> |
+                <span className="line-through text-gray-400">Working Links</span> |
+                <span 
+                  className="underline cursor-pointer hover:text-red-600"
+                  onClick={() => handleFooterLinkClick('Terms of Misuse')}
+                >
+                  Terms of Misuse
+                </span>
+              </div>
             </div>
-            <div className="font-courier text-xs text-red-600">
-              ⚠️ CraigLast is not responsible for emotional, financial, or spiritual losses incurred while browsing. Consult a meme doctor. ⚠️
+
+            {/* Copyright and Contact */}
+            <div className="text-center space-y-2 border-t-2 border-red-500 pt-4">
+              <div className="font-times text-sm text-craigpurple">
+                © 2024 by $CRGL. All wrongs reserved! Built with 💔 and questionable decisions.
+              </div>
+              <div className="font-courier text-xs text-gray-600">
+                Contact: <span className="text-blue-600 underline cursor-pointer" onClick={() => handleFooterLinkClick('Email')}>losthope@craiglast.com</span> | 
+                Legal: <span className="text-blue-600 underline cursor-pointer" onClick={() => handleFooterLinkClick('Legal')}>notreal@lawfirm.void</span>
+              </div>
+              <div className="font-courier text-xs text-red-600 bg-yellow-200 p-2 border-2 border-red-500 inline-block">
+                ⚠️ This entire project is a joke. Please invest responsibly (preferably not in meme coins). ⚠️
+              </div>
             </div>
           </div>
         </footer>

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 
 const ListingSections = () => {
@@ -89,26 +88,37 @@ const ListingSections = () => {
   };
 
   const handleBeverageClick = (text: string) => {
+    // Softened behavior: only one central popup first, then trigger chaos
     const beverageMessages = [
-      "ERROR: Beverage consumption detected.",
-      "Your thirst for hopium cannot be quenched here.",
-      "Taste of regret acquired.",
-      "This item is now liquidating your funds.",
-      "Do not ingest the truth."
+      "These tears have been recycled. No more supply.",
+      "Hopium expired in 2021. Still drinking?",
+      "Room temperature regret, freshly liquidated.",
+      "Premium whale tears, harvested at $69k.",
+      "This beverage contains traces of broken dreams."
     ];
 
-    // Create multiple overlapping popups rapidly
-    for (let i = 0; i < Math.floor(Math.random() * 3) + 3; i++) {
-      setTimeout(() => {
-        (window as any).addCraigPopup?.({
-          title: "🧃 BEVERAGE ERROR",
-          content: beverageMessages[Math.floor(Math.random() * beverageMessages.length)],
-          x: Math.random() * 500 + 50,
-          y: Math.random() * 400 + 50,
-          shaking: Math.random() > 0.5
-        });
-      }, i * 100);
-    }
+    // First popup - single, central, closable
+    (window as any).addCraigPopup?.({
+      title: "🧃 BEVERAGE NOTICE",
+      content: beverageMessages[Math.floor(Math.random() * beverageMessages.length)],
+      x: window.innerWidth / 2 - 140,
+      y: window.innerHeight / 2 - 60
+    });
+
+    // Then trigger chaos after a short delay
+    setTimeout(() => {
+      for (let i = 0; i < 7; i++) {
+        setTimeout(() => {
+          (window as any).addCraigPopup?.({
+            title: "🧃 BEVERAGE OVERFLOW",
+            content: beverageMessages[Math.floor(Math.random() * beverageMessages.length)],
+            x: Math.random() * 500 + 50,
+            y: Math.random() * 400 + 50,
+            shaking: Math.random() > 0.5
+          });
+        }, i * 150);
+      }
+    }, 1000);
   };
 
   const handleToiletPaperClick = (text: string) => {
