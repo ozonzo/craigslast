@@ -88,6 +88,61 @@ const ListingSections = () => {
     });
   };
 
+  const handleBeverageClick = (text: string) => {
+    const beverageMessages = [
+      "ERROR: Beverage consumption detected.",
+      "Your thirst for hopium cannot be quenched here.",
+      "Taste of regret acquired.",
+      "This item is now liquidating your funds.",
+      "Do not ingest the truth."
+    ];
+
+    // Create multiple overlapping popups rapidly
+    for (let i = 0; i < Math.floor(Math.random() * 3) + 3; i++) {
+      setTimeout(() => {
+        (window as any).addCraigPopup?.({
+          title: "🧃 BEVERAGE ERROR",
+          content: beverageMessages[Math.floor(Math.random() * beverageMessages.length)],
+          x: Math.random() * 500 + 50,
+          y: Math.random() * 400 + 50,
+          shaking: Math.random() > 0.5
+        });
+      }, i * 100);
+    }
+  };
+
+  const handleToiletPaperClick = (text: string) => {
+    // Flicker effect
+    document.body.style.animation = 'flicker 0.1s 10';
+    setTimeout(() => {
+      document.body.style.animation = '';
+    }, 1000);
+
+    // Add tooltip near cursor
+    (window as any).addCraigPopup?.({
+      title: "🧻 PAPER WARNING",
+      content: "This paper is not for crying. Or wiping.",
+      x: Math.random() * 400 + 100,
+      y: Math.random() * 300 + 100
+    });
+
+    console.log("🔊 *FART SOUND*");
+  };
+
+  const handleBeverageFlagged = () => {
+    alert("ITEM HAS BEEN REMOVED BY THE SANITY POLICE. DO NOT ATTEMPT RECOVERY. YOUR MEMORY WILL BE WIPED.");
+  };
+
+  const handleToiletPaperFlagged = () => {
+    (window as any).addCraigPopup?.({
+      title: "🚫 FOREVER GONE",
+      content: "THIS ITEM IS FOREVER GONE. JUST LIKE YOUR HOPES AND DREAMS. NO REFUNDS. (cannot be closed)",
+      x: window.innerWidth - 300,
+      y: window.innerHeight - 150,
+      persistent: true
+    });
+  };
+
   const handleCryptoClick = (text: string) => {
     if (text === "Terra Luna memorial coin") {
       const newWindow = window.open('', '_blank', 'width=500,height=400');
@@ -159,6 +214,30 @@ const ListingSections = () => {
       );
     }
 
+    if (sectionTitle === "Nearly Used Beverages") {
+      return (
+        <span 
+          className="text-blue-600 underline cursor-pointer hover:text-red-600"
+          onClick={() => handleBeverageClick(text)}
+          title="Consume at your own risk"
+        >
+          {text}
+        </span>
+      );
+    }
+
+    if (sectionTitle === "One-Time Toilet Paper") {
+      return (
+        <span 
+          className="text-blue-600 underline cursor-pointer hover:text-red-600"
+          onClick={() => handleToiletPaperClick(text)}
+          title="Not suitable for actual use"
+        >
+          {text}
+        </span>
+      );
+    }
+
     if (sectionTitle === "Failed Crypto Projects") {
       return (
         <span 
@@ -186,6 +265,32 @@ const ListingSections = () => {
     return <span className="text-blue-600 underline cursor-pointer">{text}</span>;
   };
 
+  const renderFlaggedItem = (sectionTitle: string) => {
+    if (sectionTitle === "Nearly Used Beverages") {
+      return (
+        <span 
+          className="text-red-600 cursor-pointer hover:text-purple-600"
+          onClick={handleBeverageFlagged}
+        >
+          [FLAGGED FOR REMOVAL]
+        </span>
+      );
+    }
+    
+    if (sectionTitle === "One-Time Toilet Paper") {
+      return (
+        <span 
+          className="text-red-600 cursor-pointer hover:text-purple-600"
+          onClick={handleToiletPaperFlagged}
+        >
+          [FLAGGED FOR REMOVAL]
+        </span>
+      );
+    }
+    
+    return <span className="text-red-600">[FLAGGED FOR REMOVAL]</span>;
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
       {sections.map((section, index) => (
@@ -197,7 +302,7 @@ const ListingSections = () => {
             {sectionContent[section.title]?.map((item, itemIndex) => (
               <div key={itemIndex}>• {renderListingItem(item, section.title)}</div>
             ))}
-            <div>• <span className="text-red-600">[FLAGGED FOR REMOVAL]</span></div>
+            <div>• {renderFlaggedItem(section.title)}</div>
           </div>
         </div>
       ))}
