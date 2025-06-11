@@ -47,7 +47,7 @@ Benefits:
   `,
   "Crypto Call Center – Must Lie to Boomers": `
 $12/hour + commission (imaginary)
-Convince grandparents to buy DogeCoin.
+Convince grandparents to buy CRAIGLAST.
 Explain blockchain using only lies.
 100% remote (from prison eventually).
 
@@ -62,6 +62,78 @@ Benefits:
 • Free burner phone
 • Legal defense fund (empty)
 • Character development (negative)
+  `,
+  "Discord Mod – No Sleep, No Pay": `
+$0/hour + power trips
+Ban people for breathing wrong.
+Moderate 24/7 crypto degens.
+Explain why "wen moon" is spam.
+
+Requirements:
+• Virgin status (permanent)
+• Basement dwelling preferred
+• Coffee IV drip certification
+• Ability to see "FUD" everywhere
+• No social life whatsoever
+
+Benefits:
+• Green username (wow!)
+• Everyone hates you
+• Carpal tunnel syndrome
+  `,
+  "Blockchain Janitor – Clean Up Failed Projects": `
+$5/hour in worthless tokens
+Clean up rugpulled Solana projects.
+Explain why your token went to zero.
+Mop up tears of bag holders.
+
+Requirements:
+• Strong stomach for BS
+• Can work with toxic waste
+• Immunity to hopium
+• Experience with broken dreams
+• Own hazmat suit
+
+Benefits:
+• Free exposure to radiation
+• Unlimited sadness
+• Job security (always failing projects)
+  `,
+  "Meme Quality Inspector – Soul Crushing Work": `
+$3/hour + depression
+Rate Pepe quality 1-10.
+Determine if Wojak is sad enough.
+Kill your sense of humor daily.
+
+Requirements:
+• Art degree (useless)
+• No sense of humor remaining
+• Can cry on command
+• Understanding of irony
+• Previously destroyed by internet
+
+Benefits:
+• Destroy creativity
+• Eternal pessimism
+• Free existential crisis
+  `,
+  "Rugpull Prevention Specialist – Impossible Task": `
+$0/hour + false hope
+Prevent inevitable rugpulls.
+Fight human nature itself.
+Lose every single time.
+
+Requirements:
+• Delusional optimism
+• Ignore all red flags
+• Trust random Discord mods
+• Believe in "diamond hands"
+• Never learn from mistakes
+
+Benefits:
+• Constant disappointment
+• Portfolio goes to zero
+• Everyone blames you
   `
 };
 

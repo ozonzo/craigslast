@@ -1,9 +1,10 @@
-
 import React, { useState } from 'react';
 import WorldMap from "@/components/WorldMap";
 import ListingSections from "@/components/ListingSections";
 import JobsSection from "@/components/JobsSection";
 import PopupManager from "@/components/PopupManager";
+import WorldClock from "@/components/WorldClock";
+import SocialIcons from "@/components/SocialIcons";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 const Index = () => {
@@ -52,6 +53,8 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white font-times">
       <PopupManager />
+      <WorldClock />
+      <SocialIcons />
       
       {/* Top Banner */}
       <div className="bg-white border-b-2 border-craigpurple p-4 text-center">
