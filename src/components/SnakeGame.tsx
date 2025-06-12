@@ -1,223 +1,136 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 
-interface GameScore {
-  name: string;
-  message: string;
-  score: number;
-  timestamp: string;
+interface SnakeGameProps {
+  boringMode: boolean;
 }
 
-const SnakeGame = () => {
-  const [gameState, setGameState] = useState<'menu' | 'playing' | 'gameOver'>('menu');
+const SnakeGame = ({ boringMode }: SnakeGameProps) => {
   const [score, setScore] = useState(0);
-  const [highScores, setHighScores] = useState<GameScore[]>([]);
-  const [playerName, setPlayerName] = useState('');
-  const [playerMessage, setPlayerMessage] = useState('');
-  const [snake, setSnake] = useState([{x: 10, y: 10}]);
-  const [food, setFood] = useState({x: 15, y: 15});
-  const [direction, setDirection] = useState({x: 0, y: 1});
-
-  const BOARD_SIZE = 20;
-
-  const generateFood = useCallback(() => {
-    return {
-      x: Math.floor(Math.random() * BOARD_SIZE),
-      y: Math.floor(Math.random() * BOARD_SIZE)
-    };
-  }, []);
-
-  const moveSnake = useCallback(() => {
-    if (gameState !== 'playing') return;
-
-    setSnake(currentSnake => {
-      const newSnake = [...currentSnake];
-      const head = {...newSnake[0]};
-      head.x += direction.x;
-      head.y += direction.y;
-
-      // Check wall collision
-      if (head.x < 0 || head.x >= BOARD_SIZE || head.y < 0 || head.y >= BOARD_SIZE) {
-        setGameState('gameOver');
-        return currentSnake;
-      }
-
-      // Check self collision
-      if (newSnake.some(segment => segment.x === head.x && segment.y === head.y)) {
-        setGameState('gameOver');
-        return currentSnake;
-      }
-
-      newSnake.unshift(head);
-
-      // Check food collision
-      if (head.x === food.x && head.y === food.y) {
-        setScore(prev => prev + 10);
-        setFood(generateFood());
-      } else {
-        newSnake.pop();
-      }
-
-      return newSnake;
-    });
-  }, [direction, food, gameState, generateFood]);
-
-  useEffect(() => {
-    const interval = setInterval(moveSnake, 150);
-    return () => clearInterval(interval);
-  }, [moveSnake]);
-
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (gameState !== 'playing') return;
-      
-      switch (e.key) {
-        case 'ArrowUp':
-          if (direction.y === 0) setDirection({x: 0, y: -1});
-          break;
-        case 'ArrowDown':
-          if (direction.y === 0) setDirection({x: 0, y: 1});
-          break;
-        case 'ArrowLeft':
-          if (direction.x === 0) setDirection({x: -1, y: 0});
-          break;
-        case 'ArrowRight':
-          if (direction.x === 0) setDirection({x: 1, y: 0});
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [direction, gameState]);
-
-  const startGame = () => {
-    setSnake([{x: 10, y: 10}]);
-    setFood(generateFood());
-    setDirection({x: 0, y: 1});
-    setScore(0);
-    setGameState('playing');
-  };
+  const [gameOver, setGameOver] = useState(false);
+  const [name, setName] = useState('');
+  const [message, setMessage] = useState('');
+  const [highScores, setHighScores] = useState([
+    { name: 'CryptoSnake420', score: 69, message: 'snek is life', time: '12:34' },
+    { name: 'RugPullVictim', score: 42, message: 'lost everything to snake', time: '11:11' },
+    { name: 'DiamondHands', score: 100, message: 'HODL the snake', time: '09:30' }
+  ]);
 
   const submitScore = () => {
-    if (playerName && playerMessage) {
-      const newScore: GameScore = {
-        name: playerName,
-        message: playerMessage,
+    if (name && message) {
+      const newScore = {
+        name,
         score,
-        timestamp: new Date().toLocaleTimeString()
+        message,
+        time: new Date().toLocaleTimeString('en-US', { 
+          hour12: false, 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        })
       };
+      setHighScores(prev => [newScore, ...prev].slice(0, 10));
+      setName('');
+      setMessage('');
       
-      setHighScores(prev => [...prev, newScore].sort((a, b) => b.score - a.score).slice(0, 10));
-      setPlayerName('');
-      setPlayerMessage('');
-      setGameState('menu');
+      if (!boringMode) {
+        (window as any).addCraigPopup?.({
+          title: "🐍 SNAKE SCORE SUBMITTED",
+          content: `Score: ${score}. Your snake legacy is now immortalized in the void.`,
+          x: Math.random() * 400 + 100,
+          y: Math.random() * 300 + 100
+        });
+      }
     }
   };
 
   return (
-    <div className="bg-purple-900 border-4 border-yellow-400 p-4 mb-6 text-center">
-      <div className="bg-black border-2 border-green-500 p-4">
-        <h2 className="text-yellow-400 font-courier text-lg mb-2 animate-broken-blink">
-          🐍 SNAKE GAME FROM 1997 🐍
-        </h2>
-        <p className="text-green-400 font-courier text-xs mb-4">
-          You either win Snake or become Snake.
-        </p>
-
-        {gameState === 'menu' && (
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <input
-                type="text"
-                placeholder="Enter your real name"
-                value={playerName}
-                onChange={(e) => setPlayerName(e.target.value)}
-                className="w-full bg-gray-800 text-green-400 border border-green-500 p-2 font-courier text-xs"
-              />
-              <input
-                type="text"
-                placeholder="Leave a cursed message"
-                value={playerMessage}
-                onChange={(e) => setPlayerMessage(e.target.value)}
-                className="w-full bg-gray-800 text-green-400 border border-green-500 p-2 font-courier text-xs"
-              />
+    <div className="bg-black border-4 border-green-500 p-6 mt-8 mb-6">
+      <h2 className="text-green-400 font-courier text-xl text-center mb-4">
+        🐍 NOKIA SNAKE (PROBABLY BROKEN)
+      </h2>
+      
+      <div className="bg-gray-900 border-2 border-gray-500 p-4 mb-4">
+        <div className="text-green-400 text-xs mb-2">
+          C:\GAMES\SNAKE.EXE - [TERMINAL MODE]
+        </div>
+        
+        {/* Fake Snake Game Display */}
+        <div className="bg-black border border-green-400 h-64 flex items-center justify-center mb-4">
+          <div className="text-green-400 font-courier text-center">
+            <div className="text-6xl mb-4">🐍</div>
+            <div className="text-sm">Score: {score}</div>
+            <div className="text-xs mt-2">
+              {gameOver ? 'GAME OVER' : 'Use WASD to move (fake)'}
             </div>
+          </div>
+        </div>
+        
+        <div className="text-center mb-4">
+          <button 
+            onClick={() => {
+              setScore(Math.floor(Math.random() * 150));
+              setGameOver(true);
+            }}
+            className="bg-green-600 text-black px-4 py-2 font-courier text-xs border-2 border-green-400 hover:bg-green-500"
+          >
+            START FAKE GAME
+          </button>
+        </div>
+      </div>
+
+      {/* Score Submission */}
+      {gameOver && (
+        <div className="bg-purple-900 border-2 border-purple-400 p-4 mb-4">
+          <h3 className="text-purple-400 font-courier text-sm mb-3">
+            📝 Submit Your Snake Legacy
+          </h3>
+          <div className="space-y-2">
+            <input
+              type="text"
+              placeholder="Your real name (or fake)"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full border border-purple-400 p-1 font-courier text-xs"
+              maxLength={20}
+            />
+            <input
+              type="text"
+              placeholder="Cursed/funny message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="w-full border border-purple-400 p-1 font-courier text-xs"
+              maxLength={50}
+            />
             <button
-              onClick={startGame}
-              className="bg-green-600 text-black px-6 py-2 font-courier text-sm border-2 border-green-400 hover:bg-green-500"
+              onClick={submitScore}
+              disabled={!name || !message}
+              className="bg-purple-600 text-white px-4 py-1 font-courier text-xs border border-purple-400 hover:bg-purple-700 disabled:opacity-50"
             >
-              START SNAKE
+              SUBMIT TO ETERNAL RECORD
             </button>
           </div>
-        )}
+        </div>
+      )}
 
-        {gameState === 'playing' && (
-          <div className="space-y-2">
-            <div className="text-yellow-400 font-courier text-sm">Score: {score}</div>
-            <div className="bg-gray-900 border border-green-500 mx-auto" style={{width: '300px', height: '300px'}}>
-              <div className="grid grid-cols-20 gap-0 w-full h-full">
-                {Array.from({length: BOARD_SIZE * BOARD_SIZE}).map((_, index) => {
-                  const x = index % BOARD_SIZE;
-                  const y = Math.floor(index / BOARD_SIZE);
-                  const isSnake = snake.some(segment => segment.x === x && segment.y === y);
-                  const isFood = food.x === x && food.y === y;
-                  
-                  return (
-                    <div
-                      key={index}
-                      className={`w-full h-full ${
-                        isSnake ? 'bg-green-400' : 
-                        isFood ? 'bg-red-500' : 
-                        'bg-gray-900'
-                      }`}
-                      style={{width: '15px', height: '15px'}}
-                    />
-                  );
-                })}
-              </div>
+      {/* High Scores */}
+      <div className="bg-yellow-900 border-2 border-yellow-400 p-4">
+        <h3 className="text-yellow-400 font-courier text-sm mb-3">
+          🏆 Snake Hall of Shame
+        </h3>
+        <div className="max-h-40 overflow-y-auto">
+          {highScores.map((entry, index) => (
+            <div key={index} className="font-courier text-xs text-yellow-200 mb-1">
+              <span className="text-white">{entry.name}</span>
+              <span className="text-gray-400"> [{entry.time}]: </span>
+              <span className="text-yellow-400">{entry.score}pts</span>
+              <span className="text-gray-300"> - {entry.message}</span>
             </div>
-            <div className="text-green-400 font-courier text-xs">
-              Use arrow keys to move | Don't hit walls or yourself
-            </div>
-          </div>
-        )}
-
-        {gameState === 'gameOver' && (
-          <div className="space-y-4">
-            <div className="text-red-500 font-courier text-lg">GAME OVER</div>
-            <div className="text-yellow-400 font-courier">Final Score: {score}</div>
-            <div className="space-y-2">
-              <button
-                onClick={submitScore}
-                disabled={!playerName || !playerMessage}
-                className="bg-purple-600 text-white px-6 py-2 font-courier text-sm border-2 border-purple-400 hover:bg-purple-500 disabled:opacity-50"
-              >
-                SUBMIT SCORE
-              </button>
-              <button
-                onClick={() => setGameState('menu')}
-                className="bg-gray-600 text-white px-6 py-2 font-courier text-sm border-2 border-gray-400 hover:bg-gray-500 ml-2"
-              >
-                MENU
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* High Scores */}
-        {highScores.length > 0 && (
-          <div className="mt-6 border-t border-green-500 pt-4">
-            <h3 className="text-yellow-400 font-courier text-sm mb-2">HIGH SCORES (ARCADE STYLE)</h3>
-            <div className="max-h-32 overflow-y-auto">
-              {highScores.map((scoreEntry, index) => (
-                <div key={index} className="text-green-400 font-courier text-xs mb-1 hover:text-yellow-400">
-                  {index + 1}. {scoreEntry.name} - {scoreEntry.score} - "{scoreEntry.message}" ({scoreEntry.timestamp})
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+          ))}
+        </div>
+      </div>
+      
+      <div className="text-center mt-4 font-courier text-xs text-gray-500">
+        🐍 You either win Snake or become Snake. 🐍
       </div>
     </div>
   );
