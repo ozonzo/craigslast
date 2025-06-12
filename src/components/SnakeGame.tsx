@@ -1,13 +1,15 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface SnakeGameProps {
   boringMode?: boolean;
 }
 
 const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
   const [highScores, setHighScores] = useState([
@@ -15,6 +17,112 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
     { name: 'RugPullVictim', score: 42, message: 'lost everything to snake', time: '11:11' },
     { name: 'DiamondHands', score: 100, message: 'HODL the snake', time: '09:30' }
   ]);
+
+  const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
+  const [food, setFood] = useState({ x: 15, y: 15 });
+  const [direction, setDirection] = useState({ x: 0, y: 0 });
+
+  const GRID_SIZE = 20;
+  const CANVAS_SIZE = 400;
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (!gameStarted || gameOver) return;
+
+      switch (e.key) {
+        case 'ArrowUp':
+          if (direction.y === 0) setDirection({ x: 0, y: -1 });
+          break;
+        case 'ArrowDown':
+          if (direction.y === 0) setDirection({ x: 0, y: 1 });
+          break;
+        case 'ArrowLeft':
+          if (direction.x === 0) setDirection({ x: -1, y: 0 });
+          break;
+        case 'ArrowRight':
+          if (direction.x === 0) setDirection({ x: 1, y: 0 });
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [direction, gameStarted, gameOver]);
+
+  useEffect(() => {
+    if (!gameStarted || gameOver) return;
+
+    const gameLoop = setInterval(() => {
+      setSnake(currentSnake => {
+        const newSnake = [...currentSnake];
+        const head = { ...newSnake[0] };
+        
+        head.x += direction.x;
+        head.y += direction.y;
+
+        // Check wall collision
+        if (head.x < 0 || head.x >= CANVAS_SIZE / GRID_SIZE || 
+            head.y < 0 || head.y >= CANVAS_SIZE / GRID_SIZE) {
+          setGameOver(true);
+          return currentSnake;
+        }
+
+        // Check self collision
+        if (newSnake.some(segment => segment.x === head.x && segment.y === head.y)) {
+          setGameOver(true);
+          return currentSnake;
+        }
+
+        newSnake.unshift(head);
+
+        // Check food collision
+        if (head.x === food.x && head.y === food.y) {
+          setScore(prev => prev + 1);
+          setFood({
+            x: Math.floor(Math.random() * (CANVAS_SIZE / GRID_SIZE)),
+            y: Math.floor(Math.random() * (CANVAS_SIZE / GRID_SIZE))
+          });
+        } else {
+          newSnake.pop();
+        }
+
+        return newSnake;
+      });
+    }, 150);
+
+    return () => clearInterval(gameLoop);
+  }, [direction, food, gameStarted, gameOver]);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Clear canvas
+    ctx.fillStyle = '#111';
+    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+    // Draw snake
+    ctx.fillStyle = '#00FF00';
+    snake.forEach(segment => {
+      ctx.fillRect(segment.x * GRID_SIZE, segment.y * GRID_SIZE, GRID_SIZE - 2, GRID_SIZE - 2);
+    });
+
+    // Draw food
+    ctx.fillStyle = '#FF0000';
+    ctx.fillRect(food.x * GRID_SIZE, food.y * GRID_SIZE, GRID_SIZE - 2, GRID_SIZE - 2);
+  }, [snake, food]);
+
+  const startGame = () => {
+    setGameStarted(true);
+    setGameOver(false);
+    setScore(0);
+    setSnake([{ x: 10, y: 10 }]);
+    setFood({ x: 15, y: 15 });
+    setDirection({ x: 1, y: 0 });
+  };
 
   const submitScore = () => {
     if (name && message) {
@@ -46,7 +154,7 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
   return (
     <div className="bg-black border-4 border-green-500 p-6 mt-8 mb-6">
       <h2 className="text-green-400 font-courier text-xl text-center mb-4">
-        🐍 NOKIA SNAKE 2000 (PROBABLY BROKEN)
+        🐍 NOKIA SNAKE 2000 (NOW ACTUALLY WORKS)
       </h2>
       
       <div className="bg-gray-900 border-2 border-gray-500 p-4 mb-4">
@@ -54,53 +162,64 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
           C:\GAMES\SNAKE.EXE - [TERMINAL MODE]
         </div>
         
-        {/* Snake Game Form */}
-        <form className="text-center font-courier mb-4" onSubmit={(e) => e.preventDefault()}>
-          <div className="mb-2">
-            <label className="text-green-400 text-xs">
-              Name: <input 
-                type="text" 
-                className="ml-2 bg-black border border-green-400 text-green-400 px-2 py-1 text-xs" 
-                placeholder="DegenGamer420"
-                maxLength={15}
-              />
-            </label>
+        {/* Game Controls */}
+        <div className="text-center mb-4">
+          <div className="text-green-400 text-xs mb-2">
+            Use ARROW KEYS to control the snake
           </div>
-          <div className="mb-4">
-            <label className="text-green-400 text-xs">
-              Message: <input 
-                type="text" 
-                className="ml-2 bg-black border border-green-400 text-green-400 px-2 py-1 text-xs" 
-                placeholder="Your final words..."
-                maxLength={50}
-              />
-            </label>
-          </div>
-        </form>
+          
+          {!gameStarted ? (
+            <div className="space-y-2">
+              <div className="mb-2">
+                <label className="text-green-400 text-xs">
+                  Name: <input 
+                    type="text" 
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="ml-2 bg-black border border-green-400 text-green-400 px-2 py-1 text-xs" 
+                    placeholder="DegenGamer420"
+                    maxLength={15}
+                  />
+                </label>
+              </div>
+              <button 
+                onClick={startGame}
+                className="bg-green-600 text-black px-4 py-2 font-courier text-xs border-2 border-green-400 hover:bg-green-500"
+              >
+                START SNAKE GAME
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <div className="text-green-400 text-sm">Score: {score}</div>
+              {gameOver && (
+                <button 
+                  onClick={startGame}
+                  className="bg-green-600 text-black px-4 py-2 font-courier text-xs border-2 border-green-400 hover:bg-green-500"
+                >
+                  PLAY AGAIN
+                </button>
+              )}
+            </div>
+          )}
+        </div>
         
-        {/* Snake Game Iframe */}
+        {/* Game Canvas */}
         <div className="flex justify-center mb-4">
-          <iframe 
-            src="https://playsnake.org/" 
-            width="400" 
-            height="400" 
+          <canvas 
+            ref={canvasRef}
+            width={CANVAS_SIZE}
+            height={CANVAS_SIZE}
             className="border-4 border-green-400"
-            title="Snake Game"
             style={{ border: '3px ridge lime' }}
           />
         </div>
         
-        <div className="text-center mb-4">
-          <button 
-            onClick={() => {
-              setScore(Math.floor(Math.random() * 150));
-              setGameOver(true);
-            }}
-            className="bg-green-600 text-black px-4 py-2 font-courier text-xs border-2 border-green-400 hover:bg-green-500"
-          >
-            START FAKE GAME (Real one in iframe above)
-          </button>
-        </div>
+        {gameOver && (
+          <div className="text-center text-red-400 font-courier text-sm mb-2">
+            GAME OVER! Final Score: {score}
+          </div>
+        )}
       </div>
 
       {/* Score Submission */}
