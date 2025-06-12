@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 
 interface SnakeGameProps {
-  boringMode: boolean;
+  boringMode?: boolean;
 }
 
-const SnakeGame = ({ boringMode }: SnakeGameProps) => {
+const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [name, setName] = useState('');

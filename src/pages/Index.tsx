@@ -260,7 +260,7 @@ const Index = () => {
         </div>
 
         {/* Snake Game Section */}
-        <SnakeGame />
+        <SnakeGame boringMode={boringMode} />
 
         {/* Epic SPX6900-style Disclaimer Footer */}
         <footer className="mt-12 border-t-4 border-craigpurple pt-6 bg-yellow-50">
