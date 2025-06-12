@@ -8,23 +8,25 @@ interface HotCryptosProps {
 const HotCryptos = ({ boringMode }: HotCryptosProps) => {
   const [refreshCount, setRefreshCount] = useState(0);
   
+  // Real trending meme coins from pump.fun and major exchanges
   const hotCoins = [
-    { name: '$WIF', vibe: '🔥', status: 'Probably Real' },
-    { name: '$BONK', vibe: '🤡', status: 'Rugged Yesterday' },
-    { name: '$SAMO', vibe: '💥', status: 'GMI' },
-    { name: '$MEOW', vibe: '🧻', status: 'Dead Cat Bounce' },
-    { name: '$BODEN', vibe: '🔥', status: 'Sleepy Joe Energy' },
-    { name: '$FLOKI', vibe: '💥', status: 'Elon Tweeted Once' },
-    { name: '$PONKE', vibe: '🤡', status: 'Ape Mode Activated' },
-    { name: '$HARAMBE', vibe: '💥', status: 'RIP King' },
-    { name: '$JUP', vibe: '🔥', status: 'To Jupiter!' },
-    { name: '$TNSR', vibe: '🧻', status: 'Tensor Confusion' }
+    { name: '$PNUT', vibe: '🥜', status: 'Squirrel Season', url: 'https://pump.fun/coin/2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump' },
+    { name: '$GOAT', vibe: '🐐', status: 'GOAT Mode Active', url: 'https://pump.fun/coin/CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump' },
+    { name: '$MOODENG', vibe: '🦛', status: 'Hippo Energy', url: 'https://pump.fun/coin/ED5nyyWEzpPPiWimP8vYm7sD7TD3LAt3Q3gRTWHzPJBY' },
+    { name: '$CRGL', vibe: '🔥', status: 'Your Project', url: 'https://pump.fun/coin/CHNwV4CVt4o4ACtbEjv1HLR4UE92GN744wgZiREDpump' },
+    { name: '$WIF', vibe: '🧢', status: 'Hat Vibes Only', url: 'https://pump.fun' },
+    { name: '$BONK', vibe: '🤡', status: 'Still Bonking', url: 'https://pump.fun' },
+    { name: '$PEPE', vibe: '🐸', status: 'Feels Good Man', url: 'https://pump.fun' },
+    { name: '$FWOG', vibe: '🧻', status: 'Ribbit Energy', url: 'https://pump.fun' },
+    { name: '$CHILLGUY', vibe: '😎', status: 'Just Chillin', url: 'https://pump.fun' },
+    { name: '$POPCAT', vibe: '🐱', status: 'Pop Pop Pop', url: 'https://pump.fun' }
   ];
 
   const handleViewMore = () => {
     setRefreshCount(prev => prev + 1);
     
-    if (!boringMode) {
+    // Reduced popup frequency from always to 30% chance
+    if (!boringMode && Math.random() > 0.7) {
       (window as any).addCraigPopup?.({
         title: "🔄 LOADING MORE TRASH",
         content: `Refreshed ${refreshCount + 1} times. Still the same coins. You're trapped in the crypto matrix.`,
@@ -34,18 +36,22 @@ const HotCryptos = ({ boringMode }: HotCryptosProps) => {
     }
   };
 
-  const handleCoinClick = (coinName: string) => {
-    if (!boringMode) {
+  const handleCoinClick = (coin: any) => {
+    // Open the actual coin page
+    window.open(coin.url, '_blank');
+    
+    // Reduced popup frequency from always to 20% chance
+    if (!boringMode && Math.random() > 0.8) {
       const messages = [
-        `${coinName} just rugged you emotionally`,
-        `You clicked ${coinName}. Nothing happened. Just like your portfolio.`,
-        `${coinName} chart: 📉📉📉 (your hopes and dreams)`,
-        `${coinName} holders: You and 3 bots`,
-        `${coinName} utility: Absolutely none`
+        `${coin.name} just rugged you emotionally`,
+        `You clicked ${coin.name}. Chart goes brrrr 📈`,
+        `${coin.name} holders: You and 3 diamond hands`,
+        `${coin.name} utility: Pure vibes`,
+        `${coin.name} to the moon? 🚀`
       ];
       
       (window as any).addCraigPopup?.({
-        title: `💰 ${coinName} INFO`,
+        title: `💰 ${coin.name} INFO`,
         content: messages[Math.floor(Math.random() * messages.length)],
         x: Math.random() * 400 + 100,
         y: Math.random() * 300 + 100
@@ -79,7 +85,7 @@ const HotCryptos = ({ boringMode }: HotCryptosProps) => {
             <div 
               key={`${coin.name}-${refreshCount}-${index}`}
               className="font-courier text-xs text-green-300 hover:text-white cursor-pointer grid grid-cols-3 gap-4 py-1 hover:bg-gray-800"
-              onClick={() => handleCoinClick(coin.name)}
+              onClick={() => handleCoinClick(coin)}
             >
               <span>{coin.name}</span>
               <span>{coin.vibe}</span>
@@ -99,7 +105,7 @@ const HotCryptos = ({ boringMode }: HotCryptosProps) => {
       </div>
       
       <div className="text-center mt-2 font-courier text-xs text-gray-500">
-        💀 All data is fake. Just like these coins' utility. 💀
+        💀 All data is real. These coins' utility is still questionable. 💀
       </div>
     </div>
   );

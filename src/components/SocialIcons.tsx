@@ -1,7 +1,6 @@
-
 import React from 'react';
 
-const SocialIcons = () => {
+const SocialIcons = ({ boringMode }: { boringMode?: boolean }) => {
   const handleSocialClick = (platform: string) => {
     const messages: Record<string, string> = {
       twitter: "🐦 CraigLast Twitter is suspended for 'excessive truthfulness'",
@@ -12,7 +11,7 @@ const SocialIcons = () => {
 
     if (platform === 'pumpfun') {
       // This is the ONLY truly functional link
-      window.open('https://pump.fun/placeholder-craiglast-token-id', '_blank');
+      window.open('https://pump.fun/coin/CHNwV4CVt4o4ACtbEjv1HLR4UE92GN744wgZiREDpump', '_blank');
       return;
     }
 
@@ -624,13 +623,15 @@ const SocialIcons = () => {
       return;
     }
 
-    (window as any).addCraigPopup?.({
-      title: `🚫 ${platform.toUpperCase()} ERROR`,
-      content: messages[platform],
-      x: Math.random() * 400 + 100,
-      y: Math.random() * 300 + 100,
-      shaking: true
-    });
+    if (!boringMode) {
+      (window as any).addCraigPopup?.({
+        title: `🚫 ${platform.toUpperCase()} ERROR`,
+        content: messages[platform],
+        x: Math.random() * 400 + 100,
+        y: Math.random() * 300 + 100,
+        shaking: true
+      });
+    }
   };
 
   return (
@@ -671,7 +672,7 @@ const SocialIcons = () => {
           className="text-blue-600 cursor-pointer hover:text-red-600 text-xs"
           onClick={() => handleSocialClick('pumpfun')}
         >
-          🚀 pump.fun (rejected)
+          🚀 pump.fun (working!)
         </div>
       </div>
     </div>

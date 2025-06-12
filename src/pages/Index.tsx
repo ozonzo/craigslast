@@ -18,8 +18,8 @@ const Index = () => {
   const handlePostClick = () => {
     if (!boringMode) {
       (window as any).addCraigPopup?.({
-        title: "🚫 Post Feature Retired",
-        content: "This feature was retired due to emotional damage caused by previous posts.",
+        title: "📝 Post Your Regrets",
+        content: "Create a new listing! Sell your broken dreams, failed relationships, or crypto losses. All categories welcome!",
         x: 300,
         y: 200
       });
@@ -37,7 +37,7 @@ const Index = () => {
       setTimeout(() => {
         (window as any).addCraigPopup?.({
           title: "🌀 Welcome to the Void",
-          content: "Nothing exists here. Not even hope.",
+          content: "Error 404: Page not found. Neither is your portfolio's value.",
           x: 150,
           y: 150,
           shaking: true
@@ -47,10 +47,10 @@ const Index = () => {
   };
 
   const handleRandomHover = () => {
-    if (!boringMode && Math.random() > 0.8) {
+    if (!boringMode && Math.random() > 0.9) { // Reduced from 0.8 to 0.9
       (window as any).addCraigPopup?.({
-        title: "🎯 Random Chaos",
-        content: "You hovered over something. Congratulations, you triggered chaos.",
+        title: "❓ Help Center",
+        content: "Help is available! Just kidding, you're on your own. This is crypto.",
         x: Math.random() * 400 + 100,
         y: Math.random() * 300 + 100
       });
@@ -58,7 +58,7 @@ const Index = () => {
   };
 
   const handleFooterLinkClick = (linkName: string) => {
-    if (!boringMode) {
+    if (!boringMode && Math.random() > 0.8) { // Reduced popup frequency
       (window as any).addCraigPopup?.({
         title: "🔗 LINK ERROR",
         content: `${linkName} is currently broken. Like everything else.`,
@@ -111,39 +111,50 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Crypto Chart Section */}
+      {/* Fixed Crypto Chart Section */}
       <div className="max-w-4xl mx-auto p-4">
         <div className="bg-black border-4 border-craigpurple p-4 mb-6 text-center">
           <h2 className="text-craigpurple font-times text-xl mb-3">
-            📈 $CRGL LIVE CHART (PROBABLY BROKEN)
+            📈 $CRGL LIVE CHART (DEFINITELY BROKEN)
           </h2>
           <div className="bg-gray-900 border-2 border-gray-500 p-4 mb-4">
-            <iframe 
-              src="https://pump.fun/coin/CHNwV4CVt4o4ACtbEjv1HLR4UE92GN744wgZiREDpump"
-              className="w-full h-96 border-2 border-red-500"
-              title="CRGL Chart"
+            {/* Fake Chart Image */}
+            <img 
+              src="https://i.imgur.com/4Z5nNrb.gif" 
+              alt="Fake glitchy chart" 
+              className="w-full max-w-2xl mx-auto border-2 border-red-500 mb-4"
+              style={{ maxWidth: '600px' }}
             />
+            <div className="text-red-400 font-courier text-xs mb-2">
+              ⚠️ Chart unavailable due to emotional instability ⚠️
+            </div>
           </div>
           <div className="flex justify-center gap-4">
-            <button 
-              onClick={handleCryptoTradeClick}
-              className="bg-green-600 text-white px-8 py-3 font-courier text-lg border-4 border-black hover:bg-green-700 transform -rotate-1"
+            <a 
+              href="https://pump.fun/coin/CHNwV4CVt4o4ACtbEjv1HLR4UE92GN744wgZiREDpump"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              🟩 BUY
-            </button>
-            <button 
-              onClick={handleCryptoTradeClick}
-              className="bg-red-600 text-white px-8 py-3 font-courier text-lg border-4 border-black hover:bg-red-700 transform rotate-1"
+              <button className="bg-green-600 text-white px-8 py-3 font-courier text-lg border-4 border-black hover:bg-green-700 transform -rotate-1">
+                🟩 BUY
+              </button>
+            </a>
+            <a 
+              href="https://pump.fun/coin/CHNwV4CVt4o4ACtbEjv1HLR4UE92GN744wgZiREDpump"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              🟥 SELL
-            </button>
+              <button className="bg-red-600 text-white px-8 py-3 font-courier text-lg border-4 border-black hover:bg-red-700 transform rotate-1">
+                🟥 SELL
+              </button>
+            </a>
           </div>
         </div>
 
         {/* Hot Cryptos Section */}
         <HotCryptos boringMode={boringMode} />
 
-        {/* Broken navigation */}
+        {/* Improved navigation with better popups */}
         <div className="mb-6 text-center">
           <div className="font-courier text-sm space-x-4 text-craigpurple">
             <span 
@@ -212,18 +223,18 @@ const Index = () => {
                   className="bg-craigpurple text-white px-3 py-1 mt-2 font-courier text-xs border-2 border-black hover:bg-purple-700"
                   onClick={handleCryptoTradeClick}
                 >
-                  Minted on pump.fun (maybe)
+                  Trade on pump.fun
                 </button>
               </div>
             </div>
 
-            {/* Fake Ads */}
+            {/* Fake Ads with better interactivity */}
             <div className="space-y-4">
               <div 
                 className="bg-red-100 border border-red-500 p-3 text-center cursor-pointer hover:bg-red-200"
                 onClick={() => !boringMode && (window as any).addCraigPopup?.({
                   title: "🇳🇬 Nigerian Prince",
-                  content: "Greetings! I am Prince Kwame and I need your $CRGL to unlock my inheritance!",
+                  content: "Greetings! I am Prince Kwame and I need your $CRGL to unlock my inheritance of 10 billion tokens!",
                   x: Math.random() * 300 + 100,
                   y: Math.random() * 200 + 100
                 })}
@@ -401,7 +412,7 @@ const Index = () => {
         💸 YOU'VE WON! (NOT REALLY)
       </div>
 
-      {/* Login Modal */}
+      {/* Login Modal with improved functionality */}
       <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
         <DialogContent className="bg-gray-100 border-4 border-craigpurple font-courier max-w-md">
           <DialogHeader>
@@ -415,7 +426,6 @@ const Index = () => {
               <input 
                 className="w-full border border-gray-400 p-1 text-xs"
                 placeholder="disappointment_collector_69"
-                disabled
               />
             </div>
             <div>
@@ -424,15 +434,24 @@ const Index = () => {
                 type="password"
                 className="w-full border border-gray-400 p-1 text-xs"
                 placeholder="••••••••••••"
-                disabled
               />
             </div>
             <div className="text-xs text-red-600 bg-yellow-100 p-2 border">
-              Please enter your mother's maiden name and crypto seed phrase (just kidding… unless?)
+              Enter your seed phrase for "security" (definitely not a scam)
             </div>
             <button 
               className="w-full bg-craigpurple text-white py-2 font-courier text-xs hover:bg-purple-700"
-              onClick={() => setShowLoginModal(false)}
+              onClick={() => {
+                setShowLoginModal(false);
+                if (!boringMode) {
+                  (window as any).addCraigPopup?.({
+                    title: "✅ LOGIN SUCCESSFUL",
+                    content: "Welcome back! Your portfolio is still worthless.",
+                    x: 300,
+                    y: 200
+                  });
+                }
+              }}
             >
               Login to Regret
             </button>
