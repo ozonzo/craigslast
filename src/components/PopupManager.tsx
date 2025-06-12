@@ -9,9 +9,14 @@ interface Popup {
   y: number;
   shaking?: boolean;
   following?: boolean;
+  persistent?: boolean;
 }
 
-const PopupManager = () => {
+interface PopupManagerProps {
+  boringMode: boolean;
+}
+
+const PopupManager = ({ boringMode }: PopupManagerProps) => {
   const [popups, setPopups] = useState<Popup[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [craigLoopCount, setCraigLoopCount] = useState(0);
@@ -25,8 +30,14 @@ const PopupManager = () => {
   }, []);
 
   const addPopup = (popup: Omit<Popup, 'id'>) => {
+    if (boringMode) return; // Don't add popups in boring mode
+    
     const id = Math.random().toString(36).substr(2, 9);
-    setPopups(prev => [...prev, { ...popup, id }]);
+    setPopups(prev => {
+      // Limit to max 5 popups at once to prevent overload
+      const newPopups = [...prev, { ...popup, id }];
+      return newPopups.slice(-5);
+    });
     
     if (popups.length >= 2) {
       setCraigLoopCount(prev => prev + 1);
@@ -47,8 +58,8 @@ const PopupManager = () => {
   const closePopup = (id: string) => {
     setPopups(prev => prev.filter(p => p.id !== id));
     
-    // Randomly trigger more popups when closing
-    if (Math.random() > 0.5) {
+    // Reduced chaos when closing - only 30% chance instead of 50%
+    if (!boringMode && Math.random() > 0.7) {
       const chaosMessages = [
         "🚨 SYSTEM BREACH DETECTED 🚨",
         "🪦 Your files are being sacrificed to $CRGL",
@@ -69,14 +80,23 @@ const PopupManager = () => {
           y: Math.random() * 400 + 50,
           shaking: Math.random() > 0.7
         });
-      }, 200);
+      }, 300);
     }
   };
 
   // Expose addPopup globally for other components
   useEffect(() => {
     (window as any).addCraigPopup = addPopup;
-  }, []);
+  }, [boringMode]);
+
+  // Clear all popups when boring mode is enabled
+  useEffect(() => {
+    if (boringMode) {
+      setPopups([]);
+    }
+  }, [boringMode]);
+
+  if (boringMode) return null;
 
   return (
     <>
@@ -96,12 +116,14 @@ const PopupManager = () => {
           {/* Windows 98 style title bar */}
           <div className="bg-blue-600 text-white px-2 py-1 flex justify-between items-center text-xs">
             <span>{popup.title}</span>
-            <button
-              onClick={() => closePopup(popup.id)}
-              className="bg-red-500 text-white px-2 hover:bg-red-600 border border-gray-400"
-            >
-              ×
-            </button>
+            {!popup.persistent && (
+              <button
+                onClick={() => closePopup(popup.id)}
+                className="bg-red-500 text-white px-2 hover:bg-red-600 border border-gray-400"
+              >
+                ×
+              </button>
+            )}
           </div>
           
           <div className="p-3 bg-gray-100">

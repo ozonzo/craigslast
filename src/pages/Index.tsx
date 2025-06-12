@@ -5,19 +5,25 @@ import JobsSection from "@/components/JobsSection";
 import PopupManager from "@/components/PopupManager";
 import WorldClock from "@/components/WorldClock";
 import SocialIcons from "@/components/SocialIcons";
+import HotCryptos from "@/components/HotCryptos";
+import SnakeGame from "@/components/SnakeGame";
+import MessageWall from "@/components/MessageWall";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 const Index = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showVoidModal, setShowVoidModal] = useState(false);
+  const [boringMode, setBoringMode] = useState(false);
 
   const handlePostClick = () => {
-    (window as any).addCraigPopup?.({
-      title: "🚫 Post Feature Retired",
-      content: "This feature was retired due to emotional damage caused by previous posts.",
-      x: 300,
-      y: 200
-    });
+    if (!boringMode) {
+      (window as any).addCraigPopup?.({
+        title: "🚫 Post Feature Retired",
+        content: "This feature was retired due to emotional damage caused by previous posts.",
+        x: 300,
+        y: 200
+      });
+    }
   };
 
   const handleAccountClick = () => {
@@ -27,20 +33,21 @@ const Index = () => {
   const handleErrorClick = () => {
     setShowVoidModal(true);
     
-    // Add some chaos
-    setTimeout(() => {
-      (window as any).addCraigPopup?.({
-        title: "🌀 Welcome to the Void",
-        content: "Nothing exists here. Not even hope.",
-        x: 150,
-        y: 150,
-        shaking: true
-      });
-    }, 500);
+    if (!boringMode) {
+      setTimeout(() => {
+        (window as any).addCraigPopup?.({
+          title: "🌀 Welcome to the Void",
+          content: "Nothing exists here. Not even hope.",
+          x: 150,
+          y: 150,
+          shaking: true
+        });
+      }, 500);
+    }
   };
 
   const handleRandomHover = () => {
-    if (Math.random() > 0.8) {
+    if (!boringMode && Math.random() > 0.8) {
       (window as any).addCraigPopup?.({
         title: "🎯 Random Chaos",
         content: "You hovered over something. Congratulations, you triggered chaos.",
@@ -51,19 +58,42 @@ const Index = () => {
   };
 
   const handleFooterLinkClick = (linkName: string) => {
-    (window as any).addCraigPopup?.({
-      title: "🔗 LINK ERROR",
-      content: `${linkName} is currently broken. Like everything else.`,
-      x: Math.random() * 300 + 100,
-      y: Math.random() * 200 + 100
-    });
+    if (!boringMode) {
+      (window as any).addCraigPopup?.({
+        title: "🔗 LINK ERROR",
+        content: `${linkName} is currently broken. Like everything else.`,
+        x: Math.random() * 300 + 100,
+        y: Math.random() * 200 + 100
+      });
+    }
+  };
+
+  const handleCryptoTradeClick = () => {
+    window.open('https://pump.fun/coin/CHNwV4CVt4o4ACtbEjv1HLR4UE92GN744wgZiREDpump', '_blank');
   };
 
   return (
     <div className="min-h-screen bg-white font-times">
-      <PopupManager />
+      <PopupManager boringMode={boringMode} />
       <WorldClock />
-      <SocialIcons />
+      <SocialIcons boringMode={boringMode} />
+      
+      {/* Boring Mode Toggle */}
+      <div className="fixed top-2 left-2 z-50">
+        <button 
+          onClick={() => setBoringMode(!boringMode)}
+          className="bg-yellow-400 text-black px-3 py-1 font-courier text-xs border-2 border-black hover:bg-yellow-500"
+        >
+          🧼 {boringMode ? 'Disable' : 'Enable'} Boring Mode (No Chaos)
+        </button>
+      </div>
+
+      {/* Boring Mode Banner */}
+      {boringMode && (
+        <div className="bg-yellow-200 border-2 border-orange-500 p-2 text-center font-courier text-sm text-black">
+          You're now in Boring Mode. What are you doing with your life?
+        </div>
+      )}
       
       {/* Top Banner */}
       <div className="bg-white border-b-2 border-craigpurple p-4 text-center">
@@ -78,7 +108,38 @@ const Index = () => {
         </div>
       </div>
 
+      {/* Crypto Chart Section */}
       <div className="max-w-4xl mx-auto p-4">
+        <div className="bg-black border-4 border-craigpurple p-4 mb-6 text-center">
+          <h2 className="text-craigpurple font-times text-xl mb-3">
+            📈 $CRGL LIVE CHART (PROBABLY BROKEN)
+          </h2>
+          <div className="bg-gray-900 border-2 border-gray-500 p-4 mb-4">
+            <iframe 
+              src="https://pump.fun/coin/CHNwV4CVt4o4ACtbEjv1HLR4UE92GN744wgZiREDpump"
+              className="w-full h-96 border-2 border-red-500"
+              title="CRGL Chart"
+            />
+          </div>
+          <div className="flex justify-center gap-4">
+            <button 
+              onClick={handleCryptoTradeClick}
+              className="bg-green-600 text-white px-8 py-3 font-courier text-lg border-4 border-black hover:bg-green-700 transform -rotate-1"
+            >
+              🟩 BUY
+            </button>
+            <button 
+              onClick={handleCryptoTradeClick}
+              className="bg-red-600 text-white px-8 py-3 font-courier text-lg border-4 border-black hover:bg-red-700 transform rotate-1"
+            >
+              🟥 SELL
+            </button>
+          </div>
+        </div>
+
+        {/* Hot Cryptos Section */}
+        <HotCryptos boringMode={boringMode} />
+
         {/* Broken navigation */}
         <div className="mb-6 text-center">
           <div className="font-courier text-sm space-x-4 text-craigpurple">
@@ -125,12 +186,15 @@ const Index = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Listings */}
           <div className="lg:col-span-2">
-            <ListingSections />
+            <ListingSections boringMode={boringMode} />
             <JobsSection />
           </div>
 
-          {/* Right Column - Token Info & Ads */}
+          {/* Right Column - Token Info, Message Wall & Ads */}
           <div className="lg:col-span-1">
+            {/* Message Wall */}
+            <MessageWall />
+
             {/* Token Info */}
             <div className="bg-yellow-100 border-2 border-craigpurple p-4 mb-6 transform -rotate-1">
               <h3 className="font-times text-lg font-bold text-craigpurple mb-2">
@@ -143,12 +207,7 @@ const Index = () => {
                 <div className="text-red-600">⚠️ NOT FINANCIAL ADVICE ⚠️</div>
                 <button 
                   className="bg-craigpurple text-white px-3 py-1 mt-2 font-courier text-xs border-2 border-black hover:bg-purple-700"
-                  onClick={() => (window as any).addCraigPopup?.({
-                    title: "🚀 pump.fun",
-                    content: "Just kidding! This token doesn't actually exist. Yet.",
-                    x: 200,
-                    y: 300
-                  })}
+                  onClick={handleCryptoTradeClick}
                 >
                   Minted on pump.fun (maybe)
                 </button>
@@ -159,7 +218,7 @@ const Index = () => {
             <div className="space-y-4">
               <div 
                 className="bg-red-100 border border-red-500 p-3 text-center cursor-pointer hover:bg-red-200"
-                onClick={() => (window as any).addCraigPopup?.({
+                onClick={() => !boringMode && (window as any).addCraigPopup?.({
                   title: "🇳🇬 Nigerian Prince",
                   content: "Greetings! I am Prince Kwame and I need your $CRGL to unlock my inheritance!",
                   x: Math.random() * 300 + 100,
@@ -183,7 +242,7 @@ const Index = () => {
 
               <div 
                 className="bg-green-100 border border-green-500 p-3 cursor-pointer"
-                onClick={() => (window as any).addCraigPopup?.({
+                onClick={() => !boringMode && (window as any).addCraigPopup?.({
                   title: "🎰 Crypto Casino WINNER!",
                   content: "Congratulations! You've won 1 million CRGL! (Worth approximately $0.004)",
                   x: 250,
@@ -199,6 +258,9 @@ const Index = () => {
             </div>
           </div>
         </div>
+
+        {/* Snake Game Section */}
+        <SnakeGame />
 
         {/* Epic SPX6900-style Disclaimer Footer */}
         <footer className="mt-12 border-t-4 border-craigpurple pt-6 bg-yellow-50">
@@ -313,7 +375,7 @@ const Index = () => {
       {/* Floating broken elements for extra chaos */}
       <div 
         className="fixed bottom-4 right-4 bg-red-600 text-white p-2 font-courier text-xs animate-bounce cursor-pointer"
-        onClick={() => (window as any).addCraigPopup?.({
+        onClick={() => !boringMode && (window as any).addCraigPopup?.({
           title: "🔗 BROKEN LINK VIRUS",
           content: "You clicked the broken link detector. Ironic.",
           x: 400,
@@ -326,7 +388,7 @@ const Index = () => {
       
       <div 
         className="fixed top-20 left-4 bg-yellow-400 text-black p-1 font-courier text-xs transform rotate-12 cursor-pointer"
-        onClick={() => (window as any).addCraigPopup?.({
+        onClick={() => !boringMode && (window as any).addCraigPopup?.({
           title: "🎉 CONGRATULATIONS!",
           content: "You've won absolutely nothing! But thanks for clicking.",
           x: 50,

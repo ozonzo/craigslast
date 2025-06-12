@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
-const ListingSections = () => {
+interface ListingSectionsProps {
+  boringMode: boolean;
+}
+
+const ListingSections = ({ boringMode }: ListingSectionsProps) => {
   const [brokenDreamsClicks, setBrokenDreamsClicks] = useState(0);
   
   const sections = [
@@ -53,12 +57,14 @@ const ListingSections = () => {
 
   const handleBrokenDreamsClick = () => {
     setBrokenDreamsClicks(prev => prev + 1);
-    (window as any).addCraigPopup?.({
-      title: "💔 Error Opening Dreams",
-      content: "Sorry. Error opening popup. Please click again.",
-      x: Math.random() * 400 + 100,
-      y: Math.random() * 300 + 100
-    });
+    if (!boringMode) {
+      (window as any).addCraigPopup?.({
+        title: "💔 Error Opening Dreams",
+        content: "Sorry. Error opening popup. Please click again.",
+        x: Math.random() * 400 + 100,
+        y: Math.random() * 300 + 100
+      });
+    }
   };
 
   const handleRegretClick = () => {
@@ -78,17 +84,18 @@ const ListingSections = () => {
   const handleBoxClick = () => {
     console.log("🔊 BOING!");
     
-    (window as any).addCraigPopup?.({
-      title: "📦 Box Opened",
-      content: "You opened the box. The box opened you.",
-      x: Math.random() * 400 + 100,
-      y: Math.random() * 300 + 100,
-      following: true
-    });
+    if (!boringMode) {
+      (window as any).addCraigPopup?.({
+        title: "📦 Box Opened",
+        content: "You opened the box. The box opened you.",
+        x: Math.random() * 400 + 100,
+        y: Math.random() * 300 + 100,
+        following: true
+      });
+    }
   };
 
   const handleBeverageClick = (text: string) => {
-    // Softened behavior: only one central popup first, then trigger chaos
     const beverageMessages = [
       "These tears have been recycled. No more supply.",
       "Hopium expired in 2021. Still drinking?",
@@ -97,28 +104,30 @@ const ListingSections = () => {
       "This beverage contains traces of broken dreams."
     ];
 
-    // First popup - single, central, closable
-    (window as any).addCraigPopup?.({
-      title: "🧃 BEVERAGE NOTICE",
-      content: beverageMessages[Math.floor(Math.random() * beverageMessages.length)],
-      x: window.innerWidth / 2 - 140,
-      y: window.innerHeight / 2 - 60
-    });
+    if (!boringMode) {
+      // First popup - single, central, closable
+      (window as any).addCraigPopup?.({
+        title: "🧃 BEVERAGE NOTICE",
+        content: beverageMessages[Math.floor(Math.random() * beverageMessages.length)],
+        x: window.innerWidth / 2 - 140,
+        y: window.innerHeight / 2 - 60
+      });
 
-    // Then trigger chaos after a short delay
-    setTimeout(() => {
-      for (let i = 0; i < 7; i++) {
-        setTimeout(() => {
-          (window as any).addCraigPopup?.({
-            title: "🧃 BEVERAGE OVERFLOW",
-            content: beverageMessages[Math.floor(Math.random() * beverageMessages.length)],
-            x: Math.random() * 500 + 50,
-            y: Math.random() * 400 + 50,
-            shaking: Math.random() > 0.5
-          });
-        }, i * 150);
-      }
-    }, 1000);
+      // Then trigger limited chaos after a short delay (reduced from 7 to 3 popups max)
+      setTimeout(() => {
+        for (let i = 0; i < 3; i++) {
+          setTimeout(() => {
+            (window as any).addCraigPopup?.({
+              title: "🧃 BEVERAGE OVERFLOW",
+              content: beverageMessages[Math.floor(Math.random() * beverageMessages.length)],
+              x: Math.random() * 500 + 50,
+              y: Math.random() * 400 + 50,
+              shaking: Math.random() > 0.5
+            });
+          }, i * 200);
+        }
+      }, 1000);
+    }
   };
 
   const handleToiletPaperClick = (text: string) => {
@@ -128,13 +137,15 @@ const ListingSections = () => {
       document.body.style.animation = '';
     }, 1000);
 
-    // Add tooltip near cursor
-    (window as any).addCraigPopup?.({
-      title: "🧻 PAPER WARNING",
-      content: "This paper is not for crying. Or wiping.",
-      x: Math.random() * 400 + 100,
-      y: Math.random() * 300 + 100
-    });
+    if (!boringMode) {
+      // Add tooltip near cursor
+      (window as any).addCraigPopup?.({
+        title: "🧻 PAPER WARNING",
+        content: "This paper is not for crying. Or wiping.",
+        x: Math.random() * 400 + 100,
+        y: Math.random() * 300 + 100
+      });
+    }
 
     console.log("🔊 *FART SOUND*");
   };
@@ -144,13 +155,15 @@ const ListingSections = () => {
   };
 
   const handleToiletPaperFlagged = () => {
-    (window as any).addCraigPopup?.({
-      title: "🚫 FOREVER GONE",
-      content: "THIS ITEM IS FOREVER GONE. JUST LIKE YOUR HOPES AND DREAMS. NO REFUNDS. (cannot be closed)",
-      x: window.innerWidth - 300,
-      y: window.innerHeight - 150,
-      persistent: true
-    });
+    if (!boringMode) {
+      (window as any).addCraigPopup?.({
+        title: "🚫 FOREVER GONE",
+        content: "THIS ITEM IS FOREVER GONE. JUST LIKE YOUR HOPES AND DREAMS. NO REFUNDS. (cannot be closed)",
+        x: window.innerWidth - 300,
+        y: window.innerHeight - 150,
+        persistent: true
+      });
+    }
   };
 
   const handleCryptoClick = (text: string) => {
@@ -169,7 +182,7 @@ const ListingSections = () => {
           </html>
         `);
       }
-    } else if (text === "my Bitcoin at $69k (ouch)") {
+    } else if (text === "my Bitcoin at $69k (ouch)" && !boringMode) {
       (window as any).addCraigPopup?.({
         title: "📈💸 PEAK BUYER ALERT",
         content: "Congratulations! You bought the top like a true legend. Diamond hands to the core... of the earth.",
@@ -177,7 +190,7 @@ const ListingSections = () => {
         y: Math.random() * 300 + 100,
         shaking: true
       });
-    } else if (text === "why I bought Shiba Inu") {
+    } else if (text === "why I bought Shiba Inu" && !boringMode) {
       (window as any).addCraigPopup?.({
         title: "🐕 DOGE REASONING",
         content: "Because Elon tweeted a dog emoji and I thought it was financial advice. 10/10 would buy again.",
