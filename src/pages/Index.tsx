@@ -95,9 +95,12 @@ const Index = () => {
         </div>
       )}
       
-      {/* Top Banner */}
-      <div className="bg-white border-b-2 border-craigpurple p-4 text-center">
-        <h1 className="text-3xl font-bold text-craigpurple mb-2 transform rotate-180 inline-block">
+      {/* Top Banner with Tooltip */}
+      <div className="bg-white border-b-2 border-craigpurple p-4 text-center relative">
+        <h1 
+          className="text-3xl font-bold text-craigpurple mb-2 transform rotate-180 inline-block cursor-help"
+          title="CraigLast is the world's first emotionally unstable crypto marketplace. Nothing works… on purpose."
+        >
           craigslast
         </h1>
         <div className="text-xl text-black font-courier">

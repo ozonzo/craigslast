@@ -34,9 +34,9 @@ const PopupManager = ({ boringMode }: PopupManagerProps) => {
     
     const id = Math.random().toString(36).substr(2, 9);
     setPopups(prev => {
-      // Limit to max 5 popups at once to prevent overload
+      // Limit to max 3 popups at once to prevent overload (reduced from 5)
       const newPopups = [...prev, { ...popup, id }];
-      return newPopups.slice(-5);
+      return newPopups.slice(-3);
     });
     
     if (popups.length >= 2) {
@@ -58,8 +58,8 @@ const PopupManager = ({ boringMode }: PopupManagerProps) => {
   const closePopup = (id: string) => {
     setPopups(prev => prev.filter(p => p.id !== id));
     
-    // Reduced chaos when closing - only 30% chance instead of 50%
-    if (!boringMode && Math.random() > 0.7) {
+    // Further reduced chaos when closing - only 20% chance instead of 30%
+    if (!boringMode && Math.random() > 0.8) {
       const chaosMessages = [
         "🚨 SYSTEM BREACH DETECTED 🚨",
         "🪦 Your files are being sacrificed to $CRGL",

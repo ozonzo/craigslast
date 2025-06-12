@@ -105,28 +105,13 @@ const ListingSections = ({ boringMode }: ListingSectionsProps) => {
     ];
 
     if (!boringMode) {
-      // First popup - single, central, closable
+      // Only single popup now - no more overflow chaos
       (window as any).addCraigPopup?.({
         title: "🧃 BEVERAGE NOTICE",
         content: beverageMessages[Math.floor(Math.random() * beverageMessages.length)],
         x: window.innerWidth / 2 - 140,
         y: window.innerHeight / 2 - 60
       });
-
-      // Then trigger limited chaos after a short delay (reduced from 7 to 3 popups max)
-      setTimeout(() => {
-        for (let i = 0; i < 3; i++) {
-          setTimeout(() => {
-            (window as any).addCraigPopup?.({
-              title: "🧃 BEVERAGE OVERFLOW",
-              content: beverageMessages[Math.floor(Math.random() * beverageMessages.length)],
-              x: Math.random() * 500 + 50,
-              y: Math.random() * 400 + 50,
-              shaking: Math.random() > 0.5
-            });
-          }, i * 200);
-        }
-      }, 1000);
     }
   };
 

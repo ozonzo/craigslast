@@ -7,86 +7,99 @@ interface HotCryptosProps {
 
 const HotCryptos = ({ boringMode }: HotCryptosProps) => {
   const [refreshCount, setRefreshCount] = useState(0);
-
-  const cryptos = [
+  
+  const hotCoins = [
     { name: '$WIF', vibe: '🔥', status: 'Probably Real' },
-    { name: '$TNSR', vibe: '🧻', status: 'Rugged' },
-    { name: '$MEOW', vibe: '💥', status: 'GMI' },
-    { name: '$POP', vibe: '🤡', status: 'Sus AF' },
-    { name: '$BODEN', vibe: '🔥', status: 'Political Risk' },
-    { name: '$SAMO', vibe: '💥', status: 'Dog Coin #4729' },
-    { name: '$JUP', vibe: '🧻', status: 'Exchange Token Meh' },
-    { name: '$BONK', vibe: '🤡', status: 'Dead Meme' },
-    { name: '$HARAMBE', vibe: '🔥', status: 'RIP Legend' },
-    { name: '$PONKE', vibe: '💥', status: 'Monkey Business' },
-    { name: '$FLOKI', vibe: '🧻', status: 'Elon Simp Coin' },
-    { name: '$CRGL', vibe: '🤡', status: 'You Are Here' }
+    { name: '$BONK', vibe: '🤡', status: 'Rugged Yesterday' },
+    { name: '$SAMO', vibe: '💥', status: 'GMI' },
+    { name: '$MEOW', vibe: '🧻', status: 'Dead Cat Bounce' },
+    { name: '$BODEN', vibe: '🔥', status: 'Sleepy Joe Energy' },
+    { name: '$FLOKI', vibe: '💥', status: 'Elon Tweeted Once' },
+    { name: '$PONKE', vibe: '🤡', status: 'Ape Mode Activated' },
+    { name: '$HARAMBE', vibe: '💥', status: 'RIP King' },
+    { name: '$JUP', vibe: '🔥', status: 'To Jupiter!' },
+    { name: '$TNSR', vibe: '🧻', status: 'Tensor Confusion' }
   ];
-
-  const getRandomCryptos = () => {
-    const shuffled = [...cryptos].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, 8);
-  };
-
-  const [displayedCryptos, setDisplayedCryptos] = useState(getRandomCryptos());
 
   const handleViewMore = () => {
     setRefreshCount(prev => prev + 1);
-    setDisplayedCryptos(getRandomCryptos());
     
-    if (!boringMode && refreshCount >= 2) {
+    if (!boringMode) {
       (window as any).addCraigPopup?.({
-        title: "🔄 INFINITE LOOP DETECTED",
-        content: "You've refreshed this table too many times. Are you trying to find hope?",
+        title: "🔄 LOADING MORE TRASH",
+        content: `Refreshed ${refreshCount + 1} times. Still the same coins. You're trapped in the crypto matrix.`,
         x: Math.random() * 400 + 100,
-        y: Math.random() * 300 + 100,
-        shaking: true
+        y: Math.random() * 300 + 100
+      });
+    }
+  };
+
+  const handleCoinClick = (coinName: string) => {
+    if (!boringMode) {
+      const messages = [
+        `${coinName} just rugged you emotionally`,
+        `You clicked ${coinName}. Nothing happened. Just like your portfolio.`,
+        `${coinName} chart: 📉📉📉 (your hopes and dreams)`,
+        `${coinName} holders: You and 3 bots`,
+        `${coinName} utility: Absolutely none`
+      ];
+      
+      (window as any).addCraigPopup?.({
+        title: `💰 ${coinName} INFO`,
+        content: messages[Math.floor(Math.random() * messages.length)],
+        x: Math.random() * 400 + 100,
+        y: Math.random() * 300 + 100
       });
     }
   };
 
   return (
-    <div className="bg-black border-4 border-green-500 p-4 mb-6 font-courier">
-      <h2 className="text-green-400 text-lg mb-4 text-center">
-        🔥 Hot Cryptos Being Stalked Today
+    <div className="bg-black border-4 border-green-500 p-4 mb-6">
+      <h2 className="text-green-400 font-courier text-xl text-center mb-4">
+        🪙 Hottest Trashfires Being Stalked Today
       </h2>
       
-      <div className="bg-gray-900 border-2 border-gray-500 p-2">
+      <div className="bg-gray-900 border-2 border-gray-500 p-4">
         <div className="text-green-400 text-xs mb-2">
-          C:\CRYPTOS\TRACKER.EXE - [TERMINAL MODE]
+          C:\CRYPTO\HOTCOINS.EXE - [TERMINAL MODE]
         </div>
         
-        <table className="w-full text-xs text-green-400 broken-table">
-          <thead>
-            <tr className="border-b border-green-500">
-              <th className="text-left p-1">COIN</th>
-              <th className="text-left p-1">24H VIBES</th>
-              <th className="text-left p-1">STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {displayedCryptos.map((crypto, index) => (
-              <tr key={`${crypto.name}-${refreshCount}-${index}`} className="hover:bg-gray-800">
-                <td className="p-1 text-yellow-400">{crypto.name}</td>
-                <td className="p-1">{crypto.vibe}</td>
-                <td className="p-1 text-red-400">{crypto.status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {/* Terminal Header */}
+        <div className="font-courier text-xs text-green-400 border-b border-gray-600 pb-2 mb-2">
+          <div className="grid grid-cols-3 gap-4">
+            <span>COIN NAME</span>
+            <span>24H VIBES</span>
+            <span>STATUS</span>
+          </div>
+        </div>
         
-        <div className="mt-3 text-center">
+        {/* Coin List */}
+        <div className="space-y-1 max-h-40 overflow-y-auto">
+          {hotCoins.map((coin, index) => (
+            <div 
+              key={`${coin.name}-${refreshCount}-${index}`}
+              className="font-courier text-xs text-green-300 hover:text-white cursor-pointer grid grid-cols-3 gap-4 py-1 hover:bg-gray-800"
+              onClick={() => handleCoinClick(coin.name)}
+            >
+              <span>{coin.name}</span>
+              <span>{coin.vibe}</span>
+              <span>{coin.status}</span>
+            </div>
+          ))}
+        </div>
+        
+        <div className="text-center mt-4">
           <button 
             onClick={handleViewMore}
-            className="bg-green-600 text-black px-4 py-1 text-xs border-2 border-green-400 hover:bg-green-500 transform hover:scale-95"
+            className="bg-green-600 text-black px-4 py-1 font-courier text-xs border-2 border-green-400 hover:bg-green-500"
           >
-            VIEW MORE (LOOP EFFECT)
+            VIEW MORE (SAME TRASH)
           </button>
         </div>
-        
-        <div className="text-gray-500 text-xs mt-2 text-center">
-          Refresh #{refreshCount + 1} | Data accuracy: 0% | Hope level: NONE
-        </div>
+      </div>
+      
+      <div className="text-center mt-2 font-courier text-xs text-gray-500">
+        💀 All data is fake. Just like these coins' utility. 💀
       </div>
     </div>
   );

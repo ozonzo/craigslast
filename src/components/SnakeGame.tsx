@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+
+import React, { useState, useEffect } from 'react';
 
 interface SnakeGameProps {
   boringMode?: boolean;
@@ -45,7 +46,7 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
   return (
     <div className="bg-black border-4 border-green-500 p-6 mt-8 mb-6">
       <h2 className="text-green-400 font-courier text-xl text-center mb-4">
-        🐍 NOKIA SNAKE (PROBABLY BROKEN)
+        🐍 NOKIA SNAKE 2000 (PROBABLY BROKEN)
       </h2>
       
       <div className="bg-gray-900 border-2 border-gray-500 p-4 mb-4">
@@ -53,15 +54,15 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
           C:\GAMES\SNAKE.EXE - [TERMINAL MODE]
         </div>
         
-        {/* Fake Snake Game Display */}
-        <div className="bg-black border border-green-400 h-64 flex items-center justify-center mb-4">
-          <div className="text-green-400 font-courier text-center">
-            <div className="text-6xl mb-4">🐍</div>
-            <div className="text-sm">Score: {score}</div>
-            <div className="text-xs mt-2">
-              {gameOver ? 'GAME OVER' : 'Use WASD to move (fake)'}
-            </div>
-          </div>
+        {/* Snake Game Iframe */}
+        <div className="flex justify-center mb-4">
+          <iframe 
+            src="data:text/html,<!DOCTYPE html><html><head><style>body{background:black;color:#00FF00;font-family:courier;text-align:center;margin:0;padding:10px;}canvas{border:2px solid #00FF00;background:#111;}</style></head><body><h3>🐍 SNAKE 2000</h3><p>Use Arrow Keys</p><canvas id='game' width='200' height='200'></canvas><p id='score'>Score: 0</p><script>const canvas=document.getElementById('game');const ctx=canvas.getContext('2d');const box=10;let snake=[{x:100,y:100}];let food={x:50,y:50};let dx=0,dy=0;let score=0;function draw(){ctx.fillStyle='#111';ctx.fillRect(0,0,200,200);for(let s of snake){ctx.fillStyle='#0f0';ctx.fillRect(s.x,s.y,box,box);}ctx.fillStyle='#f00';ctx.fillRect(food.x,food.y,box,box);if(dx||dy){let head={x:snake[0].x+dx,y:snake[0].y+dy};if(head.x<0||head.x>=200||head.y<0||head.y>=200||snake.some(s=>s.x===head.x&&s.y===head.y)){alert('Game Over! Score: '+score);return;}snake.unshift(head);if(head.x===food.x&&head.y===food.y){score++;document.getElementById('score').textContent='Score: '+score;food={x:Math.floor(Math.random()*20)*box,y:Math.floor(Math.random()*20)*box};}else{snake.pop();}}}document.addEventListener('keydown',e=>{if(e.key==='ArrowUp'&&dy===0){dx=0;dy=-box;}if(e.key==='ArrowDown'&&dy===0){dx=0;dy=box;}if(e.key==='ArrowLeft'&&dx===0){dx=-box;dy=0;}if(e.key==='ArrowRight'&&dx===0){dx=box;dy=0;}});setInterval(draw,150);</script></body></html>"
+            width="280" 
+            height="320" 
+            className="border-2 border-green-400"
+            title="Snake Game"
+          />
         </div>
         
         <div className="text-center mb-4">
@@ -72,7 +73,7 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
             }}
             className="bg-green-600 text-black px-4 py-2 font-courier text-xs border-2 border-green-400 hover:bg-green-500"
           >
-            START FAKE GAME
+            START FAKE GAME (Real one in iframe above)
           </button>
         </div>
       </div>
@@ -111,10 +112,10 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
         </div>
       )}
 
-      {/* High Scores */}
+      {/* High Scores - Wall of Snake */}
       <div className="bg-yellow-900 border-2 border-yellow-400 p-4">
         <h3 className="text-yellow-400 font-courier text-sm mb-3">
-          🏆 Snake Hall of Shame
+          🏆 Wall of Snake (Hall of Shame)
         </h3>
         <div className="max-h-40 overflow-y-auto">
           {highScores.map((entry, index) => (
