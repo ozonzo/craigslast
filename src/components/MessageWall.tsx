@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 const MessageWall = () => {
   const [nickname, setNickname] = useState('');
   const [message, setMessage] = useState('');
+  const [lastMessageTime, setLastMessageTime] = useState(0);
   const [messages, setMessages] = useState([
     { nick: 'RugPullLover91', msg: 'gm kings 🫡', time: '14:20' },
     { nick: 'CoinDaddy69', msg: 'who rugged me???', time: '14:15' },
@@ -34,19 +35,45 @@ const MessageWall = () => {
   }, [messages]);
 
   const submitMessage = () => {
+    const now = Date.now();
+    
+    // Basic spam prevention - 1 message per minute
+    if (now - lastMessageTime < 60000) {
+      alert('Please wait before posting another message (1 minute cooldown)');
+      return;
+    }
+
     if (nickname.trim() && message.trim()) {
+      // Basic content filtering
+      const bannedWords = ['spam', 'scam', 'hack', 'free money'];
+      const messageText = message.toLowerCase();
+      
+      if (bannedWords.some(word => messageText.includes(word))) {
+        alert('Message contains prohibited content');
+        return;
+      }
+
       const newMessage = {
-        nick: nickname,
-        msg: message,
+        nick: nickname.trim(),
+        msg: message.trim(),
         time: new Date().toLocaleTimeString('en-US', { 
           hour12: false, 
           hour: '2-digit', 
           minute: '2-digit' 
         })
       };
-      setMessages(prev => [newMessage, ...prev].slice(0, 50)); // Keep up to 50 messages
+      
+      setMessages(prev => [newMessage, ...prev].slice(0, 100)); // Keep up to 100 messages
       setNickname('');
       setMessage('');
+      setLastMessageTime(now);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      submitMessage();
     }
   };
 
@@ -65,6 +92,7 @@ const MessageWall = () => {
           onChange={(e) => setNickname(e.target.value)}
           className="w-full border border-blue-400 p-1 font-courier text-xs"
           maxLength={20}
+          onKeyPress={handleKeyPress}
         />
         <input
           type="text"
@@ -72,7 +100,8 @@ const MessageWall = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           className="w-full border border-blue-400 p-1 font-courier text-xs"
-          maxLength={100}
+          maxLength={150}
+          onKeyPress={handleKeyPress}
         />
         <button
           onClick={submitMessage}
@@ -98,7 +127,7 @@ const MessageWall = () => {
       </div>
       
       <div className="text-xs text-gray-400 mt-2 font-courier">
-        💀 Messages now persist forever in the digital void 💀
+        💀 Messages persist forever • Spam protection active 💀
       </div>
     </div>
   );

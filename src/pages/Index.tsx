@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import WorldMap from "@/components/WorldMap";
 import ListingSections from "@/components/ListingSections";
@@ -50,7 +51,7 @@ const Index = () => {
   };
 
   const handleRandomHover = () => {
-    if (!boringMode && Math.random() > 0.95) { // Reduced from 0.9 to 0.95
+    if (!boringMode && Math.random() > 0.98) { // Further reduced from 0.95 to 0.98
       (window as any).addCraigPopup?.({
         title: "❓ Help Center",
         content: "Help is available! Just kidding, you're on your own. This is crypto.",
@@ -61,7 +62,7 @@ const Index = () => {
   };
 
   const handleFooterLinkClick = (linkName: string) => {
-    if (!boringMode && Math.random() > 0.9) { // Reduced popup frequency
+    if (!boringMode && Math.random() > 0.95) { // Reduced popup frequency
       (window as any).addCraigPopup?.({
         title: "🔗 LINK ERROR",
         content: `${linkName} is currently broken. Like everything else.`,
@@ -88,7 +89,7 @@ const Index = () => {
       <div className="fixed top-2 left-2 z-50">
         <button 
           onClick={() => setBoringMode(!boringMode)}
-          className="bg-yellow-400 text-black px-3 py-1 font-courier text-xs border-2 border-black hover:bg-yellow-500"
+          className="bg-yellow-400 text-black px-3 py-1 font-courier text-xs border-2 border-black hover:bg-yellow-500 shadow-lg"
         >
           🧼 {boringMode ? 'Disable' : 'Enable'} Boring Mode (No Chaos)
         </button>
@@ -164,26 +165,26 @@ const Index = () => {
         <div className="mb-6 text-center">
           <div className="font-courier text-sm space-x-4 text-craigpurple">
             <span 
-              className="underline cursor-pointer hover:text-red-600"
+              className="underline cursor-pointer hover:text-red-600 transition-colors"
               onClick={handlePostClick}
             >
               post
             </span> |
             <span 
-              className="underline cursor-pointer hover:text-red-600"
+              className="underline cursor-pointer hover:text-red-600 transition-colors"
               onClick={handleAccountClick}
             >
               account
             </span> |
             <span className="line-through text-gray-400">search</span> |
             <span 
-              className="text-red-600 cursor-pointer hover:text-purple-600"
+              className="text-red-600 cursor-pointer hover:text-purple-600 transition-colors"
               onClick={handleErrorClick}
             >
               [ERROR 404]
             </span> |
             <span 
-              className="animate-broken-blink underline cursor-pointer hover:text-red-600"
+              className="animate-broken-blink underline cursor-pointer hover:text-red-600 transition-colors"
               onMouseEnter={handleRandomHover}
             >
               help
@@ -226,7 +227,7 @@ const Index = () => {
                 <div>Holders: 3 (all bots)</div>
                 <div className="text-red-600">⚠️ NOT FINANCIAL ADVICE ⚠️</div>
                 <button 
-                  className="bg-craigpurple text-white px-3 py-1 mt-2 font-courier text-xs border-2 border-black hover:bg-purple-700"
+                  className="bg-craigpurple text-white px-3 py-1 mt-2 font-courier text-xs border-2 border-black hover:bg-purple-700 transition-colors"
                   onClick={handleCryptoTradeClick}
                 >
                   Trade on pump.fun
@@ -234,10 +235,10 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Fake Ads with better interactivity */}
+            {/* Interactive Ads */}
             <div className="space-y-4">
               <div 
-                className="bg-red-100 border border-red-500 p-3 text-center cursor-pointer hover:bg-red-200"
+                className="bg-red-100 border border-red-500 p-3 text-center cursor-pointer hover:bg-red-200 transition-colors"
                 onClick={() => !boringMode && (window as any).addCraigPopup?.({
                   title: "🇳🇬 Nigerian Prince",
                   content: "Greetings! I am Prince Kwame and I need your $CRGL to unlock my inheritance of 10 billion tokens!",
@@ -251,7 +252,7 @@ const Index = () => {
               </div>
               
               <div 
-                className="bg-blue-100 border border-blue-500 p-3 cursor-pointer"
+                className="bg-blue-100 border border-blue-500 p-3 cursor-pointer hover:bg-blue-200 transition-colors"
                 onMouseEnter={handleRandomHover}
               >
                 <div className="font-courier text-xs">
@@ -261,7 +262,7 @@ const Index = () => {
               </div>
 
               <div 
-                className="bg-green-100 border border-green-500 p-3 cursor-pointer"
+                className="bg-green-100 border border-green-500 p-3 cursor-pointer hover:bg-green-200 transition-colors"
                 onClick={() => !boringMode && (window as any).addCraigPopup?.({
                   title: "🎰 Crypto Casino WINNER!",
                   content: "Congratulations! You've won 1 million CRGL! (Worth approximately $0.004)",
@@ -285,16 +286,16 @@ const Index = () => {
           <TetrisGame boringMode={boringMode} />
         </div>
 
-        {/* Epic SPX6900-style Disclaimer Footer - Made Wider */}
+        {/* Enhanced Legal Disclaimer Footer - Two Column Layout */}
         <footer className="mt-12 border-t-4 border-craigpurple pt-6 bg-yellow-50">
-          <div className="max-w-7xl mx-auto px-4"> {/* Increased from max-w-6xl to max-w-7xl */}
-            {/* Main Disclaimer Text - Made columns for better width usage */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="max-w-7xl mx-auto px-4">
+            <p className="font-bold text-red-600 text-center text-sm mb-6">
+              ⚠️ IMPORTANT LEGAL DISCLAIMER - PLEASE READ CAREFULLY ⚠️
+            </p>
+            
+            {/* Two Column Layout for Better Width Usage */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="font-courier text-xs leading-relaxed text-black space-y-3">
-                <p className="font-bold text-red-600 text-center text-sm mb-4 lg:col-span-2">
-                  ⚠️ IMPORTANT LEGAL DISCLAIMER - PLEASE READ CAREFULLY ⚠️
-                </p>
-                
                 <p>
                   <strong>CraigLast ($CRGL) Token</strong> is a meme token created for entertainment purposes only and has no association with any real assets, dignities, or valid classifieds. $CRGL is not an investment vehicle, security, commodity, or financial instrument of any kind.
                 </p>
@@ -331,7 +332,40 @@ const Index = () => {
               </div>
             </div>
 
-            {/* ... keep existing code (footer links and contact info) the same ... */}
+            {/* Footer Links */}
+            <div className="mt-8 border-t border-gray-300 pt-4 text-center">
+              <div className="font-courier text-xs text-gray-600 space-x-4">
+                <span 
+                  className="cursor-pointer hover:text-craigpurple transition-colors"
+                  onClick={() => handleFooterLinkClick('Privacy Policy')}
+                >
+                  privacy policy
+                </span> |
+                <span 
+                  className="cursor-pointer hover:text-craigpurple transition-colors"
+                  onClick={() => handleFooterLinkClick('Terms of Service')}
+                >
+                  terms of service
+                </span> |
+                <span 
+                  className="cursor-pointer hover:text-craigpurple transition-colors"
+                  onClick={() => handleFooterLinkClick('Contact')}
+                >
+                  contact us
+                </span> |
+                <span 
+                  className="cursor-pointer hover:text-craigpurple transition-colors"
+                  onClick={() => handleFooterLinkClick('Refunds')}
+                >
+                  refunds (lol)
+                </span>
+              </div>
+              
+              <div className="mt-4 font-courier text-xs text-gray-500">
+                <p>Contract: CHNwV4CVt4o4ACtbEjv1HLR4UE92GN744wgZiREDpump</p>
+                <p>© 2024 CraigLast. All rights reserved (and immediately given up).</p>
+              </div>
+            </div>
           </div>
         </footer>
       </div>
@@ -339,9 +373,9 @@ const Index = () => {
       {/* Bottom News Ticker */}
       <NewsTickerBottom />
 
-      {/* Floating broken elements for extra chaos */}
+      {/* Interactive Floating Elements */}
       <div 
-        className="fixed bottom-4 right-4 bg-red-600 text-white p-2 font-courier text-xs animate-bounce cursor-pointer"
+        className="fixed bottom-4 right-4 bg-red-600 text-white p-2 font-courier text-xs animate-bounce cursor-pointer hover:bg-red-700 transition-colors shadow-lg z-30"
         onClick={() => !boringMode && (window as any).addCraigPopup?.({
           title: "🔗 BROKEN LINK VIRUS",
           content: "You clicked the broken link detector. Ironic.",
@@ -354,7 +388,7 @@ const Index = () => {
       </div>
       
       <div 
-        className="fixed top-20 left-4 bg-yellow-400 text-black p-1 font-courier text-xs transform rotate-12 cursor-pointer"
+        className="fixed top-20 left-4 bg-yellow-400 text-black p-1 font-courier text-xs transform rotate-12 cursor-pointer hover:bg-yellow-500 transition-colors shadow-lg z-30"
         onClick={() => !boringMode && (window as any).addCraigPopup?.({
           title: "🎉 CONGRATULATIONS!",
           content: "You've won absolutely nothing! But thanks for clicking.",
@@ -365,7 +399,7 @@ const Index = () => {
         💸 YOU'VE WON! (NOT REALLY)
       </div>
 
-      {/* Login Modal with improved functionality */}
+      {/* Enhanced Login Modal */}
       <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
         <DialogContent className="bg-gray-100 border-4 border-craigpurple font-courier max-w-md">
           <DialogHeader>
@@ -393,7 +427,7 @@ const Index = () => {
               Enter your seed phrase for "security" (definitely not a scam)
             </div>
             <button 
-              className="w-full bg-craigpurple text-white py-2 font-courier text-xs hover:bg-purple-700"
+              className="w-full bg-craigpurple text-white py-2 font-courier text-xs hover:bg-purple-700 transition-colors"
               onClick={() => {
                 setShowLoginModal(false);
                 if (!boringMode) {
@@ -412,7 +446,7 @@ const Index = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Void Modal */}
+      {/* Enhanced Void Modal */}
       <Dialog open={showVoidModal} onOpenChange={setShowVoidModal}>
         <DialogContent className="bg-black text-green-400 border-4 border-red-600 font-courier max-w-md">
           <DialogHeader>
@@ -430,7 +464,7 @@ const Index = () => {
               You clicked [ERROR 404]. What did you expect?
             </div>
             <button 
-              className="w-full bg-red-600 text-white py-2 font-courier text-xs hover:bg-red-700"
+              className="w-full bg-red-600 text-white py-2 font-courier text-xs hover:bg-red-700 transition-colors"
               onClick={() => setShowVoidModal(false)}
             >
               Escape the Void (Maybe)

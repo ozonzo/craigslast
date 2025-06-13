@@ -8,24 +8,30 @@ const NewsTickerBottom = () => {
 
   useEffect(() => {
     const oddNewsHeadlines = [
-      "Man discovers his pet goldfish has been trading crypto while he sleeps",
+      "Man discovers his pet goldfish has been day-trading crypto while he sleeps",
       "Local woman's sourdough starter declared sentient by AI researchers",
-      "Florida man arrested for trying to pay taxes with NFTs",
-      "Scientists find correlation between pineapple on pizza and investment success",
-      "Cat accidentally becomes millionaire through random keyboard trading",
-      "Study reveals 73% of people lie about reading terms and conditions",
-      "Town's entire population gets trapped in escape room during team building",
-      "Man's attempt to live like caveman ends when he invents cryptocurrency",
-      "Breaking: Area dog still doesn't understand blockchain after 500 explanations"
+      "Florida man arrested for trying to pay taxes with NFTs and Monopoly money",
+      "Scientists find correlation between pineapple on pizza preference and investment success",
+      "Cat accidentally becomes millionaire through random keyboard trading on DEX",
+      "Study reveals 73% of people lie about actually reading terms and conditions",
+      "Town's entire population gets trapped in escape room during team building event",
+      "Man's attempt to live like caveman ends when he accidentally invents cryptocurrency",
+      "Breaking: Area dog still doesn't understand blockchain after 500 patient explanations",
+      "Woman claims her houseplant gives better financial advice than her broker",
+      "Local teenager becomes crypto millionaire by forgetting wallet password for 3 years",
+      "Man builds time machine to warn himself about buying crypto at ATH, creates paradox",
+      "Study shows people who use dark mode are 23% more likely to HODL",
+      "Grandmother accidentally becomes DeFi whale while trying to send email",
+      "Town replaces all street signs with QR codes, chaos and confusion ensue"
     ];
 
     const updateHeadlines = () => {
       const shuffled = [...oddNewsHeadlines].sort(() => 0.5 - Math.random());
-      setHeadlines(shuffled.slice(0, 6));
+      setHeadlines(shuffled.slice(0, 8));
     };
 
     updateHeadlines();
-    const interval = setInterval(updateHeadlines, 50000); // Update every 50 seconds
+    const interval = setInterval(updateHeadlines, 35000); // Update every 35 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -47,7 +53,7 @@ const NewsTickerBottom = () => {
           {headlines.map((headline, index) => (
             <span 
               key={index} 
-              className="mx-8 cursor-pointer hover:text-yellow-300"
+              className="mx-8 cursor-pointer hover:text-yellow-300 transition-colors"
               onClick={handleHeadlineClick}
             >
               🗞️ {headline}
