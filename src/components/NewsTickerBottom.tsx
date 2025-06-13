@@ -3,37 +3,53 @@ import React, { useState, useEffect } from 'react';
 
 const NewsTickerBottom = () => {
   const [headlines, setHeadlines] = useState([
-    "Local man discovers internet, immediately regrets it",
-    "Area woman still using Internet Explorer, scientists baffled",
-    "Breaking: Cat learns to use computer, immediately buys memecoins",
-    "Study finds 100% of people reading this should be doing something else",
-    "Scientists discover new form of procrastination: watching crypto charts"
+    "Loading odd news headlines...",
   ]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const newHeadlines = [
-        "Man claims to have invented 'digital money' in 2009, nobody believes him",
-        "Local teenager becomes millionaire, parents still disappointed",
-        "Woman discovers husband's secret: he bought crypto at the top",
-        "Breaking: Person reads terms and conditions, lawyers stunned",
-        "Area man still explaining NFTs to his houseplants",
-        "Study: 99% of crypto investors don't know what they're doing",
-        "Local dog accidentally becomes crypto influencer"
-      ];
-      setHeadlines(newHeadlines);
-    }, 35000);
+    const oddNewsHeadlines = [
+      "Man discovers his pet goldfish has been trading crypto while he sleeps",
+      "Local woman's sourdough starter declared sentient by AI researchers",
+      "Florida man arrested for trying to pay taxes with NFTs",
+      "Scientists find correlation between pineapple on pizza and investment success",
+      "Cat accidentally becomes millionaire through random keyboard trading",
+      "Study reveals 73% of people lie about reading terms and conditions",
+      "Town's entire population gets trapped in escape room during team building",
+      "Man's attempt to live like caveman ends when he invents cryptocurrency",
+      "Breaking: Area dog still doesn't understand blockchain after 500 explanations"
+    ];
+
+    const updateHeadlines = () => {
+      const shuffled = [...oddNewsHeadlines].sort(() => 0.5 - Math.random());
+      setHeadlines(shuffled.slice(0, 6));
+    };
+
+    updateHeadlines();
+    const interval = setInterval(updateHeadlines, 50000); // Update every 50 seconds
 
     return () => clearInterval(interval);
   }, []);
 
+  const handleHeadlineClick = () => {
+    // Alternate between the two sources
+    const sources = ['https://thebeaverton.com/', 'https://www.upi.com/Odd_News/'];
+    const randomSource = sources[Math.floor(Math.random() * sources.length)];
+    window.open(randomSource, '_blank');
+  };
+
   return (
     <div className="bg-red-600 text-white py-2 overflow-hidden relative">
+      <div className="text-center font-courier text-sm font-bold mb-1">
+        THINGS U DON'T NEED TO KNOW:
+      </div>
       <div className="font-courier text-sm">
-        <span className="font-bold">THINGS U DON'T NEED TO KNOW: (NEWS----NEWS----NEWS...)</span>
         <div className="animate-scroll inline-block whitespace-nowrap">
           {headlines.map((headline, index) => (
-            <span key={index} className="mx-8 cursor-pointer hover:text-yellow-300">
+            <span 
+              key={index} 
+              className="mx-8 cursor-pointer hover:text-yellow-300"
+              onClick={handleHeadlineClick}
+            >
               🗞️ {headline}
             </span>
           ))}

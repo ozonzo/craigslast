@@ -194,7 +194,7 @@ const TetrisGame = ({ boringMode = false }: TetrisGameProps) => {
   return (
     <div className="bg-black border-4 border-red-500 p-6 mt-8 mb-6">
       <h2 className="text-red-400 font-courier text-xl text-center mb-4">
-        🧱 CLASSIC TETRIS (RED EDITION)
+        🧱 THE ONLY ONE
       </h2>
       
       <div className="bg-gray-900 border-2 border-gray-500 p-4 mb-4">

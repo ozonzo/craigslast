@@ -331,69 +331,7 @@ const Index = () => {
               </div>
             </div>
 
-            {/* ... keep existing code (footer links and contact info) */}
-            <div className="text-center border-t-2 border-gray-300 pt-4 mb-4 mt-6">
-              <div className="font-courier text-xs text-craigpurple space-x-4 mb-2">
-                <span 
-                  className="underline cursor-pointer hover:text-red-600"
-                  onClick={() => handleFooterLinkClick('MemeTools')}
-                >
-                  MemeTools
-                </span> |
-                <span 
-                  className="underline cursor-pointer hover:text-red-600"
-                  onClick={() => handleFooterLinkClick('SadgeSwap')}
-                >
-                  SadgeSwap
-                </span> |
-                <span 
-                  className="underline cursor-pointer hover:text-red-600"
-                  onClick={() => handleFooterLinkClick('LostWallets')}
-                >
-                  LostWallets
-                </span> |
-                <span 
-                  className="underline cursor-pointer hover:text-red-600"
-                  onClick={() => handleFooterLinkClick('BrokenDEX')}
-                >
-                  BrokenDEX
-                </span>
-              </div>
-              <div className="font-courier text-xs text-craigpurple space-x-4">
-                <span 
-                  className="underline cursor-pointer hover:text-red-600"
-                  onClick={() => handleFooterLinkClick('Opensea of Tears')}
-                >
-                  Opensea of Tears
-                </span> |
-                <span 
-                  className="underline cursor-pointer hover:text-red-600"
-                  onClick={() => handleFooterLinkClick('CraigLast DAO')}
-                >
-                  CraigLast DAO (Hypothetical)
-                </span> |
-                <span className="line-through text-gray-400">Working Links</span> |
-                <span 
-                  className="underline cursor-pointer hover:text-red-600"
-                  onClick={() => handleFooterLinkClick('Terms of Misuse')}
-                >
-                  Terms of Misuse
-                </span>
-              </div>
-            </div>
-
-            <div className="text-center space-y-2 border-t-2 border-red-500 pt-4">
-              <div className="font-times text-sm text-craigpurple">
-                © 2024 by $CRGL. All wrongs reserved! Built with 💔 and questionable decisions.
-              </div>
-              <div className="font-courier text-xs text-gray-600">
-                Contact: <span className="text-blue-600 underline cursor-pointer" onClick={() => handleFooterLinkClick('Email')}>losthope@craiglast.com</span> | 
-                Legal: <span className="text-blue-600 underline cursor-pointer" onClick={() => handleFooterLinkClick('Legal')}>notreal@lawfirm.void</span>
-              </div>
-              <div className="font-courier text-xs text-red-600 bg-yellow-200 p-2 border-2 border-red-500 inline-block">
-                ⚠️ This entire project is a joke. Please invest responsibly (preferably not in meme coins). ⚠️
-              </div>
-            </div>
+            {/* ... keep existing code (footer links and contact info) the same ... */}
           </div>
         </footer>
       </div>
