@@ -1,8 +1,14 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 
 interface SnakeGameProps {
   boringMode?: boolean;
+}
+
+interface HighScore {
+  name: string;
+  score: number;
+  message: string;
+  time: string;
 }
 
 const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
@@ -12,7 +18,7 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
   const [gameStarted, setGameStarted] = useState(false);
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
-  const [highScores, setHighScores] = useState([
+  const [highScores, setHighScores] = useState<HighScore[]>([
     { name: 'CryptoSnake420', score: 69, message: 'snek is life', time: '12:34' },
     { name: 'RugPullVictim', score: 42, message: 'lost everything to snake', time: '11:11' },
     { name: 'DiamondHands', score: 100, message: 'HODL the snake', time: '09:30' }
@@ -24,6 +30,24 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
 
   const GRID_SIZE = 20;
   const CANVAS_SIZE = 400;
+
+  // Load high scores from localStorage on component mount
+  useEffect(() => {
+    const savedScores = localStorage.getItem('craiglast-snake-scores');
+    if (savedScores) {
+      try {
+        const parsedScores = JSON.parse(savedScores);
+        setHighScores(parsedScores);
+      } catch (error) {
+        console.error('Error loading high scores:', error);
+      }
+    }
+  }, []);
+
+  // Save high scores to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('craiglast-snake-scores', JSON.stringify(highScores));
+  }, [highScores]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -136,7 +160,10 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
           minute: '2-digit' 
         })
       };
-      setHighScores(prev => [newScore, ...prev].slice(0, 10));
+      setHighScores(prev => [newScore, ...prev]
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 20) // Keep top 20 scores
+      );
       setName('');
       setMessage('');
       
@@ -172,13 +199,25 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
             <div className="space-y-2">
               <div className="mb-2">
                 <label className="text-green-400 text-xs">
-                  Name: <input 
+                  Real Name: <input 
                     type="text" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="ml-2 bg-black border border-green-400 text-green-400 px-2 py-1 text-xs" 
-                    placeholder="DegenGamer420"
-                    maxLength={15}
+                    placeholder="Enter your real name"
+                    maxLength={20}
+                  />
+                </label>
+              </div>
+              <div className="mb-2">
+                <label className="text-green-400 text-xs">
+                  Message: <input 
+                    type="text" 
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className="ml-2 bg-black border border-green-400 text-green-400 px-2 py-1 text-xs" 
+                    placeholder="Leave a short message"
+                    maxLength={50}
                   />
                 </label>
               </div>
@@ -231,7 +270,7 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
           <div className="space-y-2">
             <input
               type="text"
-              placeholder="Your real name (or fake)"
+              placeholder="Your real name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full border border-purple-400 p-1 font-courier text-xs"
@@ -239,7 +278,7 @@ const SnakeGame = ({ boringMode = false }: SnakeGameProps) => {
             />
             <input
               type="text"
-              placeholder="Cursed/funny message"
+              placeholder="Leave a short message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className="w-full border border-purple-400 p-1 font-courier text-xs"

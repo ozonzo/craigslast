@@ -3,11 +3,14 @@ import WorldMap from "@/components/WorldMap";
 import ListingSections from "@/components/ListingSections";
 import JobsSection from "@/components/JobsSection";
 import PopupManager from "@/components/PopupManager";
-import WorldClock from "@/components/WorldClock";
 import SocialIcons from "@/components/SocialIcons";
 import HotCryptos from "@/components/HotCryptos";
 import SnakeGame from "@/components/SnakeGame";
+import TetrisGame from "@/components/TetrisGame";
 import MessageWall from "@/components/MessageWall";
+import NewsTickerTop from "@/components/NewsTickerTop";
+import NewsTickerBottom from "@/components/NewsTickerBottom";
+import ExpandableWorldClock from "@/components/ExpandableWorldClock";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 const Index = () => {
@@ -47,7 +50,7 @@ const Index = () => {
   };
 
   const handleRandomHover = () => {
-    if (!boringMode && Math.random() > 0.9) { // Reduced from 0.8 to 0.9
+    if (!boringMode && Math.random() > 0.95) { // Reduced from 0.9 to 0.95
       (window as any).addCraigPopup?.({
         title: "❓ Help Center",
         content: "Help is available! Just kidding, you're on your own. This is crypto.",
@@ -58,7 +61,7 @@ const Index = () => {
   };
 
   const handleFooterLinkClick = (linkName: string) => {
-    if (!boringMode && Math.random() > 0.8) { // Reduced popup frequency
+    if (!boringMode && Math.random() > 0.9) { // Reduced popup frequency
       (window as any).addCraigPopup?.({
         title: "🔗 LINK ERROR",
         content: `${linkName} is currently broken. Like everything else.`,
@@ -75,8 +78,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white font-times">
       <PopupManager boringMode={boringMode} />
-      <WorldClock />
+      <ExpandableWorldClock />
       <SocialIcons boringMode={boringMode} />
+      
+      {/* Top News Ticker */}
+      <NewsTickerTop />
       
       {/* Boring Mode Toggle */}
       <div className="fixed top-2 left-2 z-50">
@@ -273,53 +279,60 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Snake Game Section */}
-        <SnakeGame boringMode={boringMode} />
+        {/* Games Section - Snake and Tetris Side by Side */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <SnakeGame boringMode={boringMode} />
+          <TetrisGame boringMode={boringMode} />
+        </div>
 
-        {/* Epic SPX6900-style Disclaimer Footer */}
+        {/* Epic SPX6900-style Disclaimer Footer - Made Wider */}
         <footer className="mt-12 border-t-4 border-craigpurple pt-6 bg-yellow-50">
-          <div className="max-w-6xl mx-auto px-4">
-            {/* Main Disclaimer Text */}
-            <div className="font-courier text-xs leading-relaxed text-black space-y-4 mb-6">
-              <p className="font-bold text-red-600 text-center text-sm mb-4">
-                ⚠️ IMPORTANT LEGAL DISCLAIMER - PLEASE READ CAREFULLY ⚠️
-              </p>
+          <div className="max-w-7xl mx-auto px-4"> {/* Increased from max-w-6xl to max-w-7xl */}
+            {/* Main Disclaimer Text - Made columns for better width usage */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="font-courier text-xs leading-relaxed text-black space-y-3">
+                <p className="font-bold text-red-600 text-center text-sm mb-4 lg:col-span-2">
+                  ⚠️ IMPORTANT LEGAL DISCLAIMER - PLEASE READ CAREFULLY ⚠️
+                </p>
+                
+                <p>
+                  <strong>CraigLast ($CRGL) Token</strong> is a meme token created for entertainment purposes only and has no association with any real assets, dignities, or valid classifieds. $CRGL is not an investment vehicle, security, commodity, or financial instrument of any kind.
+                </p>
+                
+                <p>
+                  <strong>SATIRE AND ENTERTAINMENT:</strong> This website, including all content, listings, job postings, and interactive elements, is entirely fictional and created for comedic purposes. Any resemblance to real classified ads is purely coincidental.
+                </p>
+                
+                <p>
+                  <strong>NO INTRINSIC VALUE:</strong> $CRGL tokens have no intrinsic value, utility, or promise of future value. They are not backed by any assets, revenues, or legitimate business operations. Purchasing $CRGL is equivalent to purchasing digital air.
+                </p>
+                
+                <p>
+                  <strong>RISK ACKNOWLEDGMENT:</strong> Cryptocurrency investments carry extreme risk of total loss. Past performance is not indicative of future results. You may lose all invested capital, your dignity, your sleep, and potentially your faith in humanity.
+                </p>
+              </div>
               
-              <p>
-                <strong>CraigLast ($CRGL) Token</strong> is a meme token created for entertainment purposes only and has no association with any real assets, dignities, or valid classifieds. $CRGL is not an investment vehicle, security, commodity, or financial instrument of any kind. The token exists purely as a satirical commentary on cryptocurrency markets and classified advertisement platforms.
-              </p>
-              
-              <p>
-                <strong>SATIRE AND ENTERTAINMENT:</strong> This website, including all content, listings, job postings, and interactive elements, is entirely fictional and created for comedic purposes. Any resemblance to real classified ads, legitimate business opportunities, or functional websites is purely coincidental and unintentional.
-              </p>
-              
-              <p>
-                <strong>NO INTRINSIC VALUE:</strong> $CRGL tokens have no intrinsic value, utility, or promise of future value. They are not backed by any assets, revenues, or legitimate business operations. Purchasing $CRGL is equivalent to purchasing digital air, existential dread, or the sound of dial-up internet.
-              </p>
-              
-              <p>
-                <strong>RISK ACKNOWLEDGMENT:</strong> Cryptocurrency investments carry extreme risk of total loss. Past performance of any cryptocurrency is not indicative of future results. You may lose all invested capital, your dignity, your sleep, and potentially your faith in humanity. Consult with a financial advisor before making any investment decisions (and maybe a therapist too).
-              </p>
-              
-              <p>
-                <strong>NO LIABILITY:</strong> The creators, developers, and affiliates of CraigLast ($CRGL) are not responsible for any financial losses, emotional trauma, spiritual crises, or existential questioning that may result from interacting with this website or token. We are also not responsible for computer viruses, popup infections, or Windows 98 flashbacks.
-              </p>
-              
-              <p>
-                <strong>NO FINANCIAL ADVICE:</strong> Nothing on this website constitutes financial, investment, legal, or life advice. Any apparent recommendations are either jokes, sarcasm, or the incoherent ramblings of sleep-deprived developers. Do not base financial decisions on memes, broken links, or popup messages.
-              </p>
-              
-              <p>
-                <strong>INDEMNIFICATION:</strong> By accessing this website, you agree to indemnify and hold harmless CraigLast, its creators, and anyone who has ever heard of this project from any claims, damages, or losses arising from your use of this platform, including but not limited to: laptop damage from rage-induced keyboard smashing, relationship problems caused by cryptocurrency obsession, and therapy bills resulting from financial trauma.
-              </p>
-              
-              <p>
-                <strong>JURISDICTIONAL CHAOS:</strong> This disclaimer is governed by the laws of the metaverse, interpreted by AI judges, and enforced by absolutely nobody. Any disputes will be resolved through trial by meme combat in the digital thunderdome.
-              </p>
+              <div className="font-courier text-xs leading-relaxed text-black space-y-3">
+                <p>
+                  <strong>NO LIABILITY:</strong> The creators, developers, and affiliates of CraigLast ($CRGL) are not responsible for any financial losses, emotional trauma, spiritual crises, or existential questioning that may result from interacting with this website or token.
+                </p>
+                
+                <p>
+                  <strong>NO FINANCIAL ADVICE:</strong> Nothing on this website constitutes financial, investment, legal, or life advice. Any apparent recommendations are either jokes, sarcasm, or the incoherent ramblings of sleep-deprived developers.
+                </p>
+                
+                <p>
+                  <strong>INDEMNIFICATION:</strong> By accessing this website, you agree to indemnify and hold harmless CraigLast, its creators, and anyone who has ever heard of this project from any claims, damages, or losses arising from your use of this platform.
+                </p>
+                
+                <p>
+                  <strong>JURISDICTIONAL CHAOS:</strong> This disclaimer is governed by the laws of the metaverse, interpreted by AI judges, and enforced by absolutely nobody. Any disputes will be resolved through trial by meme combat in the digital thunderdome.
+                </p>
+              </div>
             </div>
 
-            {/* Fake Internal Links */}
-            <div className="text-center border-t-2 border-gray-300 pt-4 mb-4">
+            {/* ... keep existing code (footer links and contact info) */}
+            <div className="text-center border-t-2 border-gray-300 pt-4 mb-4 mt-6">
               <div className="font-courier text-xs text-craigpurple space-x-4 mb-2">
                 <span 
                   className="underline cursor-pointer hover:text-red-600"
@@ -369,7 +382,6 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Copyright and Contact */}
             <div className="text-center space-y-2 border-t-2 border-red-500 pt-4">
               <div className="font-times text-sm text-craigpurple">
                 © 2024 by $CRGL. All wrongs reserved! Built with 💔 and questionable decisions.
@@ -385,6 +397,9 @@ const Index = () => {
           </div>
         </footer>
       </div>
+
+      {/* Bottom News Ticker */}
+      <NewsTickerBottom />
 
       {/* Floating broken elements for extra chaos */}
       <div 

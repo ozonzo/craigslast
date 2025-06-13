@@ -30,16 +30,16 @@ const PopupManager = ({ boringMode }: PopupManagerProps) => {
   }, []);
 
   const addPopup = (popup: Omit<Popup, 'id'>) => {
-    if (boringMode) return; // Don't add popups in boring mode
+    if (boringMode) return;
     
     const id = Math.random().toString(36).substr(2, 9);
     setPopups(prev => {
-      // Limit to max 3 popups at once to prevent overload (reduced from 5)
+      // Limit to max 2 popups at once to reduce chaos
       const newPopups = [...prev, { ...popup, id }];
-      return newPopups.slice(-3);
+      return newPopups.slice(-2);
     });
     
-    if (popups.length >= 2) {
+    if (popups.length >= 1) {
       setCraigLoopCount(prev => prev + 1);
       if (craigLoopCount === 0) {
         setTimeout(() => {
@@ -50,7 +50,7 @@ const PopupManager = ({ boringMode }: PopupManagerProps) => {
             y: Math.random() * 300 + 100,
             shaking: true
           });
-        }, 500);
+        }, 1000);
       }
     }
   };
@@ -58,8 +58,8 @@ const PopupManager = ({ boringMode }: PopupManagerProps) => {
   const closePopup = (id: string) => {
     setPopups(prev => prev.filter(p => p.id !== id));
     
-    // Further reduced chaos when closing - only 20% chance instead of 30%
-    if (!boringMode && Math.random() > 0.8) {
+    // Further reduced chaos when closing - only 10% chance instead of 20%
+    if (!boringMode && Math.random() > 0.9) {
       const chaosMessages = [
         "🚨 SYSTEM BREACH DETECTED 🚨",
         "🪦 Your files are being sacrificed to $CRGL",
@@ -78,9 +78,9 @@ const PopupManager = ({ boringMode }: PopupManagerProps) => {
           content: chaosMessages[Math.floor(Math.random() * chaosMessages.length)],
           x: Math.random() * 500 + 50,
           y: Math.random() * 400 + 50,
-          shaking: Math.random() > 0.7
+          shaking: Math.random() > 0.8
         });
-      }, 300);
+      }, 800);
     }
   };
 

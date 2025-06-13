@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const MessageWall = () => {
   const [nickname, setNickname] = useState('');
@@ -15,6 +15,24 @@ const MessageWall = () => {
     { nick: 'CryptoWidow', msg: 'my husband left me for Bitcoin', time: '13:45' }
   ]);
 
+  // Load messages from localStorage on component mount
+  useEffect(() => {
+    const savedMessages = localStorage.getItem('craiglast-messages');
+    if (savedMessages) {
+      try {
+        const parsedMessages = JSON.parse(savedMessages);
+        setMessages(parsedMessages);
+      } catch (error) {
+        console.error('Error loading messages:', error);
+      }
+    }
+  }, []);
+
+  // Save messages to localStorage whenever messages change
+  useEffect(() => {
+    localStorage.setItem('craiglast-messages', JSON.stringify(messages));
+  }, [messages]);
+
   const submitMessage = () => {
     if (nickname.trim() && message.trim()) {
       const newMessage = {
@@ -26,7 +44,7 @@ const MessageWall = () => {
           minute: '2-digit' 
         })
       };
-      setMessages(prev => [newMessage, ...prev].slice(0, 20));
+      setMessages(prev => [newMessage, ...prev].slice(0, 50)); // Keep up to 50 messages
       setNickname('');
       setMessage('');
     }
@@ -80,7 +98,7 @@ const MessageWall = () => {
       </div>
       
       <div className="text-xs text-gray-400 mt-2 font-courier">
-        💀 Messages disappear into the void after 20 entries 💀
+        💀 Messages now persist forever in the digital void 💀
       </div>
     </div>
   );
